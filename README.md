@@ -29,4 +29,4 @@ This code is modified version of codes
 
 # Trained Agent
 * hopper
-![image](/img/hopper.gif)
+![image](https://github.com/reinforcement-learning-kr/pg_travel/blob/master/img/hopper.gif)
