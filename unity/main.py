@@ -11,6 +11,7 @@ from unity.agent.ppo2 import train_model
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--render', default=False)
+parser.add_argument('--load_model', default=None)
 args = parser.parse_args()
 
 
@@ -23,6 +24,7 @@ if __name__=="__main__":
 
     env = UnityEnvironment(file_name=env_name)
 
+    # setting for unity ml-agent
     default_brain = env.brain_names[0]
     brain = env.brains[default_brain]
 
@@ -34,13 +36,17 @@ if __name__=="__main__":
 
     actor = Actor(num_inputs, num_actions)
     critic = Critic(num_inputs)
-    # actor = torch.load('save_model/actor')
-    # critic = torch.load('save_model/critic')
+
+    if args.load_model is not None:
+        model_path = args.load_model
+        actor = torch.load(model_path + '/actor')
+        critic = torch.load(model_path + '/critic')
 
     actor_optim = optim.Adam(actor.parameters(), lr=hp.actor_lr)
     critic_optim = optim.Adam(critic.parameters(), lr=hp.critic_lr,
                               weight_decay=hp.l2_rate)
 
+    # running average of state
     running_state = ZFilter((num_inputs,), clip=5)
     episodes = 0
     for iter in range(10000):
@@ -55,6 +61,7 @@ if __name__=="__main__":
             state = env_info.vector_observations[0]
             state = running_state(state)
             score = 0
+
             for _ in range(10000):
                 steps += 1
                 mu, std, _ = actor(torch.Tensor(state).unsqueeze(0))

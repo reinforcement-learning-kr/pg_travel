@@ -77,7 +77,9 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
 
             values = critic(inputs)
             clipped_values = oldvalue_samples + \
-                             torch.clamp(values - oldvalue_samples, -0.2, 0.2)
+                             torch.clamp(values - oldvalue_samples,
+                                         -hp.clip_param,
+                                         hp.clip_param)
             critic_loss1 = criterion(clipped_values, returns_samples)
             critic_loss2 = criterion(values, returns_samples)
             critic_loss = torch.max(critic_loss1, critic_loss2).mean()
