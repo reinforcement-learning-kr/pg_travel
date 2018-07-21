@@ -4,12 +4,12 @@ import argparse
 import numpy as np
 import datetime
 import torch.optim as optim
-from unity.model import Actor, Critic
-from unity.utils.utils import get_action
+from model import Actor, Critic
+from utils.utils import get_action
 from collections import deque
-from unity.utils.running_state import ZFilter
-from unity.agent.ppo import train_model
-from unity.unityagents import UnityEnvironment
+from utils.running_state import ZFilter
+from agent.ppo import train_model
+from unityagents import UnityEnvironment
 from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
