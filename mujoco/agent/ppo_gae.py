@@ -1,6 +1,6 @@
 import numpy as np
-from mujoco.utils.utils import *
-from mujoco.hparams import HyperParams as hp
+from utils.utils import *
+from hparams import HyperParams as hp
 
 
 def get_gae(rewards, masks, values):

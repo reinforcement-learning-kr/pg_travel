@@ -3,11 +3,11 @@ import torch
 import argparse
 import numpy as np
 import torch.optim as optim
-from mujoco.model import Actor, Critic
-from mujoco.utils.utils import get_action
+from model import Actor, Critic
+from utils.utils import get_action
 from collections import deque
-from mujoco.utils.running_state import ZFilter
-from mujoco.hparams import HyperParams as hp
+from utils.running_state import ZFilter
+from hparams import HyperParams as hp
 
 
 parser = argparse.ArgumentParser()
