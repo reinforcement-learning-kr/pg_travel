@@ -1,3 +1,4 @@
+import os
 import torch
 import argparse
 import numpy as np
@@ -116,6 +117,9 @@ if __name__ == "__main__":
         train_model(actor, critic, memory, actor_optim, critic_optim, args)
         if iter % 100:
             score_avg = int(score_avg)
+            directory = 'save_model/'
+            if not os.path.exists(directory):
+                os.makedirs(directory)
             torch.save(actor.state_dict, 'save_model/' + str(score_avg) +
                        'actor.pt')
             torch.save(critic.state_dict, 'save_model/' + str(score_avg) +
