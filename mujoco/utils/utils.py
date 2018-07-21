@@ -2,12 +2,6 @@ import torch
 import math
 
 
-def get_action(mu, std):
-    action = torch.normal(mu, std)
-    action = action.data.numpy()
-    return action
-
-
 def log_density(x, mu, std, logstd):
     var = std.pow(2)
     log_density = -(x - mu).pow(2) / (2 * var) \
