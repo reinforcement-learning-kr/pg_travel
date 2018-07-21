@@ -2,16 +2,15 @@ import torch
 import argparse
 import numpy as np
 from unity.model import Actor, Critic
+from unity.unityagents import UnityEnvironment
 from unity.utils.utils import get_action
 from unity.utils.running_state import ZFilter
 
 
 if __name__=="__main__":
-    env_name = "./Env/walker2"
+    env_name = "./env/walker"
     train_mode = False
     torch.manual_seed(500)
-
-    from unity.unityagents import UnityEnvironment
 
     env = UnityEnvironment(file_name=env_name)
 
@@ -24,8 +23,8 @@ if __name__=="__main__":
     print('state size:', num_inputs)
     print('action size:', num_actions)
 
-    actor = torch.load('save_model/actor')
-    critic = torch.load('save_model/critic')
+    actor = torch.load('save_model/actor1')
+    critic = torch.load('save_model/critic1')
 
     running_state = ZFilter((num_inputs,), clip=5)
     episodes = 0
