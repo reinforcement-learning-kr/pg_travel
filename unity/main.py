@@ -11,7 +11,7 @@ from unity.agent.ppo import train_model
 from unity.unityagents import UnityEnvironment
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
-parser.add_argument('--render', default=False,
+parser.add_argument('--render', default=True,
                     help='if you dont want to render, set this to True')
 parser.add_argument('--load_model', default=None)
 parser.add_argument('--gamma', default=0.995, help='discount factor')

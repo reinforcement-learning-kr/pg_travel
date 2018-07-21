@@ -9,10 +9,10 @@ class Actor(nn.Module):
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
         super(Actor, self).__init__()
-        self.fc1 = nn.Linear(num_inputs, args.hidden)
-        self.fc2 = nn.Linear(args.hidden, args.hidden)
-        self.fc3 = nn.Linear(args.hidden, args.hidden)
-        self.fc4 = nn.Linear(args.hidden, num_outputs)
+        self.fc1 = nn.Linear(num_inputs, args.hidden_size)
+        self.fc2 = nn.Linear(args.hidden_size, args.hidden_size)
+        self.fc3 = nn.Linear(args.hidden_size, args.hidden_size)
+        self.fc4 = nn.Linear(args.hidden_size, num_outputs)
 
         self.fc4.weight.data.mul_(0.1)
         self.fc4.bias.data.mul_(0.0)
@@ -42,9 +42,9 @@ class Actor(nn.Module):
 class Critic(nn.Module):
     def __init__(self, num_inputs, args):
         super(Critic, self).__init__()
-        self.fc1 = nn.Linear(num_inputs, args.hidden)
-        self.fc2 = nn.Linear(args.hidden, args.hidden)
-        self.fc3 = nn.Linear(args.hidden, 1)
+        self.fc1 = nn.Linear(num_inputs, args.hidden_size)
+        self.fc2 = nn.Linear(args.hidden_size, args.hidden_size)
+        self.fc3 = nn.Linear(args.hidden_size, 1)
         self.fc3.weight.data.mul_(0.1)
         self.fc3.bias.data.mul_(0.0)
 
