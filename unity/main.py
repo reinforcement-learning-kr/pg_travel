@@ -9,13 +9,14 @@ from collections import deque
 from unity.utils.running_state import ZFilter
 from unity.agent.ppo import train_model
 from unity.unityagents import UnityEnvironment
+from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
 parser.add_argument('--render', default=True,
                     help='if you dont want to render, set this to True')
 parser.add_argument('--load_model', default=None)
 parser.add_argument('--gamma', default=0.995, help='discount factor')
-parser.add_argument('--lambda', default=0.95, help='GAE hyper-parameter')
+parser.add_argument('--lamda', default=0.95, help='GAE hyper-parameter')
 parser.add_argument('--hidden_size', default=512,
                     help='hidden unit size of actor and critic networks')
 parser.add_argument('--critic_lr', default=0.0001)
@@ -62,6 +63,7 @@ if __name__ == "__main__":
     critic_optim = optim.Adam(critic.parameters(), lr=args.critic_lr,
                               weight_decay=args.l2_rate)
 
+    writer = SummaryWriter()
     # running average of state
     running_state = ZFilter((num_inputs,), clip=5)
     episodes = 0
@@ -103,16 +105,20 @@ if __name__ == "__main__":
                 state = next_state
 
                 if done:
+
                     break
 
             scores.append(score)
         score_avg = np.mean(scores)
+        writer.add_scalar('log/score', float(score_avg), iter)
         print('{} episode score is {:.2f}'.format(episodes, score_avg))
         actor.train(), critic.train()
         train_model(actor, critic, memory, actor_optim, critic_optim, args)
-        if iter % 10:
-            time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-            actor.save_state_dict('save_model/' + time + 'actor.pt')
-            critic.save_state_dict('save_model/' + time + 'critic.pt')
+        if iter % 100:
+            score_avg = int(score_avg)
+            torch.save(actor.state_dict, 'save_model/' + str(score_avg) +
+                       'actor.pt')
+            torch.save(critic.state_dict, 'save_model/' + str(score_avg) +
+                       'critic.pt')
 
     env.close()
