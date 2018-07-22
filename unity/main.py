@@ -1,8 +1,8 @@
 import os
+import platform
 import torch
 import argparse
 import numpy as np
-import datetime
 import torch.optim as optim
 from model import Actor, Critic
 from utils.utils import get_action
@@ -14,7 +14,9 @@ from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
 parser.add_argument('--render', default=True,
-                    help='if you dont want to render, set this to True')
+                    help='if you dont want to render, set this to False')
+parser.add_argument('--train_mode', default=True,
+                    help='if you dont want to train, set this to False')
 parser.add_argument('--load_model', default=None)
 parser.add_argument('--gamma', default=0.995, help='discount factor')
 parser.add_argument('--lamda', default=0.95, help='GAE hyper-parameter')
@@ -33,8 +35,12 @@ args = parser.parse_args()
 
 
 if __name__ == "__main__":
-    env_name = "./env/walker"
-    train_mode = True
+    if platform.system() == 'Darwin':
+        env_name = "./env/walker_mac"
+    elif platform.system() == 'Linux':
+        env_name = "./env/walker_linux"
+
+    train_mode = args.train_mode
     torch.manual_seed(500)
 
     if args.render:
