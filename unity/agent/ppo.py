@@ -28,7 +28,7 @@ def get_gae(rewards, masks, values, args):
 
 
 def surrogate_loss(actor, advants, states, old_policy, actions, index):
-    mu, std, logstd = actor(to_tensor(states))
+    mu, std, logstd = actor(states)
     new_policy = log_density(actions, mu, std, logstd)
     old_policy = old_policy[index]
 
