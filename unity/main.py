@@ -93,8 +93,8 @@ if __name__ == "__main__":
 
             for _ in range(10000):
                 steps += 1
-                state = to_tensor(state)
-                mu, std, _ = actor(state.unsqueeze(0))
+                state_tensor = to_tensor(state)
+                mu, std, _ = actor(state_tensor.unsqueeze(0))
                 action = get_action(mu, std)[0]
                 actions = np.zeros([len(env_info.agents), num_actions])
                 actions[0] = action
