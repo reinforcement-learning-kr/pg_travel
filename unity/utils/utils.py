@@ -20,7 +20,7 @@ def to_tensor(numpy_array):
 
 def get_action(mu, std):
     action = torch.normal(mu, std)
-    action = action.data.numpy()
+    action = action.cpu().data.numpy()
     return action
 
 
