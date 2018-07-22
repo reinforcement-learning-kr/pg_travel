@@ -2,9 +2,25 @@ import torch
 import math
 
 
+def to_tensor_long(numpy_array):
+    if torch.cuda.is_available():
+        variable = torch.LongTensor(numpy_array).cuda()
+    else:
+        variable = torch.LongTensor(numpy_array).cpu()
+    return variable
+
+
+def to_tensor(numpy_array):
+    if torch.cuda.is_available():
+        variable = torch.Tensor(numpy_array).cuda()
+    else:
+        variable = torch.Tensor(numpy_array).cpu()
+    return variable
+
+
 def get_action(mu, std):
     action = torch.normal(mu, std)
-    action = action.data.numpy()
+    action = action.cpu().data.numpy()
     return action
 
 

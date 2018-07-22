@@ -1,10 +1,10 @@
 import numpy as np
-from unity.utils.utils import *
+from utils.utils import *
 
 
 def get_gae(rewards, masks, values, args):
-    rewards = torch.Tensor(rewards)
-    masks = torch.Tensor(masks)
+    rewards = to_tensor(rewards)
+    masks = to_tensor(masks)
     returns = torch.zeros_like(rewards)
     advants = torch.zeros_like(rewards)
 
@@ -28,7 +28,7 @@ def get_gae(rewards, masks, values, args):
 
 
 def surrogate_loss(actor, advants, states, old_policy, actions, index):
-    mu, std, logstd = actor(torch.Tensor(states))
+    mu, std, logstd = actor(states)
     new_policy = log_density(actions, mu, std, logstd)
     old_policy = old_policy[index]
 
@@ -43,14 +43,14 @@ def train_model(actor, critic, memory, actor_optim, critic_optim, args):
     actions = list(memory[:, 1])
     rewards = list(memory[:, 2])
     masks = list(memory[:, 3])
-    values = critic(torch.Tensor(states))
+    values = critic(to_tensor(states))
 
     # ----------------------------
     # step 1: get returns and GAEs and log probability of old policy
     returns, advants = get_gae(rewards, masks, values, args)
-    mu, std, logstd = actor(torch.Tensor(states))
-    old_policy = log_density(torch.Tensor(actions), mu, std, logstd)
-    old_values = critic(torch.Tensor(states))
+    mu, std, logstd = actor(to_tensor(states))
+    old_policy = log_density(to_tensor(actions), mu, std, logstd)
+    old_values = critic(to_tensor(states))
 
     criterion = torch.nn.MSELoss()
     n = len(states)
@@ -63,11 +63,11 @@ def train_model(actor, critic, memory, actor_optim, critic_optim, args):
 
         for i in range(n // args.batch_size):
             batch_index = arr[args.batch_size * i: args.batch_size * (i + 1)]
-            batch_index = torch.LongTensor(batch_index)
-            inputs = torch.Tensor(states)[batch_index]
+            batch_index = to_tensor_long(batch_index)
+            inputs = to_tensor(states)[batch_index]
             returns_samples = returns.unsqueeze(1)[batch_index]
             advants_samples = advants.unsqueeze(1)[batch_index]
-            actions_samples = torch.Tensor(actions)[batch_index]
+            actions_samples = to_tensor(actions)[batch_index]
             oldvalue_samples = old_values[batch_index].detach()
 
             loss, ratio = surrogate_loss(actor, advants_samples, inputs,
