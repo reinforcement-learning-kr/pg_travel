@@ -37,7 +37,7 @@ environment which is an default example of ml-agent. This agent has a state size
 and an action 39 dimension. This is a quite big dimension compared with Mujoco. 
 So it takes time for training and multiple actor-runners.  
 
-![image](https://github.com/reinforcement-learning-kr/pg_travel/tree/woongwon/img/walker.png)
+![image](https://github.com/reinforcement-learning-kr/pg_travel/blab/master/img/walker.png)
 
 # Train
 See arguments in main.py. You can change hyper parameters for the ppo algorithm, 
