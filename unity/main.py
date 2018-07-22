@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
         steps = 0
         scores = []
-        while steps < 2048:
+        while steps < 20480:
             episodes += 1
             env_info = env.reset(train_mode=train_mode)[default_brain]
             state = env_info.vector_observations[0]
@@ -117,7 +117,6 @@ if __name__ == "__main__":
                 state = next_state
 
                 if done:
-
                     break
 
             scores.append(score)
