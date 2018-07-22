@@ -36,8 +36,8 @@ How to make environment is in docs of unity ml-agent. This code is for the walke
 environment which is an default example of ml-agent. This agent has a state size of 212 dimension 
 and an action 39 dimension. This is a quite big dimension compared with Mujoco. 
 So it takes time for training and multiple actor-runners.  
- 
-<img src="https://www.dropbox.com/s/5k4u0tf22bnhiq1/Screenshot%202018-07-22%2011.48.59.png?dl=1">
+
+![image](https://github.com/reinforcement-learning-kr/pg_travel/tree/woongwon/img/walker.png)
 
 # Train
 See arguments in main.py. You can change hyper parameters for the ppo algorithm, 
