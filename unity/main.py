@@ -1,20 +1,22 @@
 import os
+import platform
 import torch
 import argparse
 import numpy as np
-import datetime
 import torch.optim as optim
-from unity.model import Actor, Critic
-from unity.utils.utils import get_action
+from model import Actor, Critic
+from utils.utils import *
 from collections import deque
-from unity.utils.running_state import ZFilter
-from unity.agent.ppo import train_model
-from unity.unityagents import UnityEnvironment
+from utils.running_state import ZFilter
+from agent.ppo import train_model
+from unityagents import UnityEnvironment
 from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
 parser.add_argument('--render', default=True,
-                    help='if you dont want to render, set this to True')
+                    help='if you dont want to render, set this to False')
+parser.add_argument('--train_mode', default=True,
+                    help='if you dont want to train, set this to False')
 parser.add_argument('--load_model', default=None)
 parser.add_argument('--gamma', default=0.995, help='discount factor')
 parser.add_argument('--lamda', default=0.95, help='GAE hyper-parameter')
@@ -33,8 +35,12 @@ args = parser.parse_args()
 
 
 if __name__ == "__main__":
-    env_name = "./env/walker"
-    train_mode = True
+    if platform.system() == 'Darwin':
+        env_name = "./env/walker_mac"
+    elif platform.system() == 'Linux':
+        env_name = "./env/walker_linux/walker.x86_64"
+
+    train_mode = args.train_mode
     torch.manual_seed(500)
 
     if args.render:
@@ -55,6 +61,10 @@ if __name__ == "__main__":
     actor = Actor(num_inputs, num_actions, args)
     critic = Critic(num_inputs, args)
 
+    if torch.cuda.is_available():
+        actor = actor.cuda()
+        critic = critic.cuda()
+
     if args.load_model is not None:
         model_path = args.load_model
         actor = actor.load_state_dict(model_path + 'actor.pt')
@@ -74,7 +84,7 @@ if __name__ == "__main__":
 
         steps = 0
         scores = []
-        while steps < 2048:
+        while steps < 20480:
             episodes += 1
             env_info = env.reset(train_mode=train_mode)[default_brain]
             state = env_info.vector_observations[0]
@@ -83,7 +93,8 @@ if __name__ == "__main__":
 
             for _ in range(10000):
                 steps += 1
-                mu, std, _ = actor(torch.Tensor(state).unsqueeze(0))
+                state_tensor = to_tensor(state)
+                mu, std, _ = actor(state_tensor.unsqueeze(0))
                 action = get_action(mu, std)[0]
                 actions = np.zeros([len(env_info.agents), num_actions])
                 actions[0] = action
@@ -106,7 +117,6 @@ if __name__ == "__main__":
                 state = next_state
 
                 if done:
-
                     break
 
             scores.append(score)
