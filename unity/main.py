@@ -38,7 +38,7 @@ if __name__ == "__main__":
     if platform.system() == 'Darwin':
         env_name = "./env/walker_mac"
     elif platform.system() == 'Linux':
-        env_name = "./env/walker_linux"
+        env_name = "./env/walker_linux/walker.x86_64"
 
     train_mode = args.train_mode
     torch.manual_seed(500)
