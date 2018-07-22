@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import torch.optim as optim
 from model import Actor, Critic
-from utils.utils import get_action
+from utils.utils import *
 from collections import deque
 from utils.running_state import ZFilter
 from agent.ppo import train_model
@@ -61,6 +61,10 @@ if __name__ == "__main__":
     actor = Actor(num_inputs, num_actions, args)
     critic = Critic(num_inputs, args)
 
+    if torch.cuda.is_available():
+        actor = actor.cuda()
+        critic = critic.cuda()
+
     if args.load_model is not None:
         model_path = args.load_model
         actor = actor.load_state_dict(model_path + 'actor.pt')
@@ -89,7 +93,8 @@ if __name__ == "__main__":
 
             for _ in range(10000):
                 steps += 1
-                mu, std, _ = actor(torch.Tensor(state).unsqueeze(0))
+                state = to_tensor(state)
+                mu, std, _ = actor(state.unsqueeze(0))
                 action = get_action(mu, std)[0]
                 actions = np.zeros([len(env_info.agents), num_actions])
                 actions[0] = action
