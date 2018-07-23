@@ -61,7 +61,6 @@ if __name__ == "__main__":
     num_actions = brain.vector_action_space_size
     num_agent = env._n_agents[default_brain]
 
-
     print('state size:', num_inputs)
     print('action size:', num_actions)
 
@@ -98,7 +97,7 @@ if __name__ == "__main__":
         while steps < args.time_horizon:
             steps += 1
 
-            mu, std, _ = actor(torch.Tensor(states))
+            mu, std, _ = actor(to_tensor(states))
             actions = get_action(mu, std)
             env_info = env.step(actions)[default_brain]
 
