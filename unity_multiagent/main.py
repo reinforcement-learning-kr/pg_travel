@@ -120,8 +120,8 @@ if __name__ == "__main__":
                     score_avg = np.mean(scores[-min(10, episodes):])
                     print('{}th episode : last 10 episode mean score of 1st agent is {:.2f}'.format(
                         episodes, score_avg))
-                    writer.add_scalar('log/score', float(score_avg), iter)
 
+        writer.add_scalar('log/score', float(score_avg), iter)
         actor.train(), critic.train()
 
         sts, ats, returns, advants, old_policy, old_value = [], [], [], [], [], []
