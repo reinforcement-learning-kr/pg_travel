@@ -61,7 +61,6 @@ if __name__ == "__main__":
     num_actions = brain.vector_action_space_size
     num_agent = env._n_agents[default_brain]
 
-
     print('state size:', num_inputs)
     print('action size:', num_actions)
 
@@ -98,7 +97,7 @@ if __name__ == "__main__":
         while steps < args.time_horizon:
             steps += 1
 
-            mu, std, _ = actor(torch.Tensor(states))
+            mu, std, _ = actor(to_tensor(states))
             actions = get_action(mu, std)
             env_info = env.step(actions)[default_brain]
 
@@ -121,8 +120,8 @@ if __name__ == "__main__":
                     score_avg = np.mean(scores[-min(10, episodes):])
                     print('{}th episode : last 10 episode mean score of 1st agent is {:.2f}'.format(
                         episodes, score_avg))
-                    writer.add_scalar('log/score', float(score_avg), iter)
 
+        writer.add_scalar('log/score', float(score_avg), iter)
         actor.train(), critic.train()
 
         sts, ats, returns, advants, old_policy, old_value = [], [], [], [], [], []

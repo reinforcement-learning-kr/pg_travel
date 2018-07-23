@@ -25,6 +25,8 @@ parser.add_argument('--hidden_size', default=512,
 parser.add_argument('--critic_lr', default=0.0001)
 parser.add_argument('--actor_lr', default=0.0001)
 parser.add_argument('--batch_size', default=1024)
+parser.add_argument('--time_horizon', default=1000,
+                    help='the number of time horizon (step number) T ')
 parser.add_argument('--l2_rate', default=0.001,
                     help='l2 regularizer coefficient')
 parser.add_argument('--clip_param', default=0.1,
@@ -84,7 +86,7 @@ if __name__ == "__main__":
 
         steps = 0
         scores = []
-        while steps < 20480:
+        while steps < args.time_horizon:
             episodes += 1
             env_info = env.reset(train_mode=train_mode)[default_brain]
             state = env_info.vector_observations[0]
@@ -130,9 +132,9 @@ if __name__ == "__main__":
             directory = 'save_model/'
             if not os.path.exists(directory):
                 os.makedirs(directory)
-            torch.save(actor.state_dict, 'save_model/' + str(score_avg) +
+            torch.save(actor.state_dict(), 'save_model/' + str(score_avg) +
                        'actor.pt')
-            torch.save(critic.state_dict, 'save_model/' + str(score_avg) +
+            torch.save(critic.state_dict(), 'save_model/' + str(score_avg) +
                        'critic.pt')
 
     env.close()

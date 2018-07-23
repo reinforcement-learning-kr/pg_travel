@@ -16,7 +16,7 @@ def get_gae(rewards, masks, values, args):
     for t in reversed(range(0, len(rewards))):
         running_returns = rewards[t] + args.gamma * running_returns * masks[t]
         running_tderror = rewards[t] + args.gamma * previous_value * masks[t] - \
-                    values.data[t]
+                          values.data[t]
         running_advants = running_tderror + args.gamma * args.lamda * \
                           running_advants * masks[t]
 
@@ -37,25 +37,27 @@ def surrogate_loss(actor, advants, states, old_policy, actions, index):
     surrogate = ratio * advants
     return surrogate, ratio
 
+
 def process_memory(actor, critic, memory, args):
     memory = np.array(memory)
     states = np.vstack(memory[:, 0])
     actions = list(memory[:, 1])
     rewards = list(memory[:, 2])
     masks = list(memory[:, 3])
-    values = critic(torch.Tensor(states))
+    values = critic(to_tensor(states))
 
     # ----------------------------
     # step 1: get returns and GAEs and log probability of old policy
     returns, advants = get_gae(rewards, masks, values, args)
-    mu, std, logstd = actor(torch.Tensor(states))
-    old_policy = log_density(torch.Tensor(actions), mu, std, logstd)
-    old_values = critic(torch.Tensor(states))
+    mu, std, logstd = actor(to_tensor(states))
+    old_policy = log_density(to_tensor(actions), mu, std, logstd)
+    old_values = critic(to_tensor(states))
 
     return states, actions, returns, advants, old_policy, old_values
 
-def train_model(actor, critic,actor_optim, critic_optim, states, actions, returns, advants, old_policy, old_values, args):
 
+def train_model(actor, critic, actor_optim, critic_optim, states, actions,
+                returns, advants, old_policy, old_values, args):
     criterion = torch.nn.MSELoss()
     n = len(states)
     # arr = np.arange(n)
