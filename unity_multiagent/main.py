@@ -43,6 +43,8 @@ if __name__ == "__main__":
         env_name = "./env/walker_mac_multi"
     elif platform.system() == 'Linux':
         env_name = "./env/walker_linux/walker.x86_64"
+    elif platform.system() == 'Windows':
+        env_name = "./env/walker-curved-windows/Unity Environment"
 
     train_mode = args.train_mode
     torch.manual_seed(500)
@@ -63,6 +65,7 @@ if __name__ == "__main__":
 
     print('state size:', num_inputs)
     print('action size:', num_actions)
+    print('agent count:', num_agent)
 
     actor = Actor(num_inputs, num_actions, args)
     critic = Critic(num_inputs, args)
@@ -73,8 +76,8 @@ if __name__ == "__main__":
 
     if args.load_model is not None:
         model_path = args.load_model
-        actor = actor.load_state_dict(model_path + 'actor.pt')
-        critic = critic.load_state_dict(model_path + 'critic.pt')
+        actor.load_state_dict(torch.load(model_path + '/actor.pt'))
+        critic.load_state_dict(torch.load(model_path + '/critic.pt'))
 
     actor_optim = optim.Adam(actor.parameters(), lr=args.actor_lr)
     critic_optim = optim.Adam(critic.parameters(), lr=args.critic_lr,
