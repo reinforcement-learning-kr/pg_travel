@@ -44,7 +44,7 @@ if __name__ == "__main__":
     elif platform.system() == 'Linux':
         env_name = "./env/walker_linux/walker.x86_64"
     elif platform.system() == 'Windows':
-        env_name = "./env/walker-curved-windows/Unity Environment"
+        env_name = "./env/walker_windows/Unity Environment"
 
     train_mode = args.train_mode
     torch.manual_seed(500)
@@ -67,6 +67,11 @@ if __name__ == "__main__":
     print('action size:', num_actions)
     print('agent count:', num_agent)
 
+    writer = SummaryWriter()
+    # running average of state
+    running_state = ZFilter((num_agent,num_inputs), clip=5)
+    states = running_state(env_info.vector_observations)
+
     actor = Actor(num_inputs, num_actions, args)
     critic = Critic(num_inputs, args)
 
@@ -79,14 +84,22 @@ if __name__ == "__main__":
         actor.load_state_dict(torch.load(model_path + '/actor.pt'))
         critic.load_state_dict(torch.load(model_path + '/critic.pt'))
 
+        f = open(model_path + '/zfilter_n', 'r')
+        n_load = f.readline()
+        print(type(n_load))
+        print(int(float(n_load)))
+        running_state.rs.n = int(float(n_load))
+        f.close()
+
+        running_state.rs.mean = np.loadtxt(model_path + '/zfilter_m')
+        running_state.rs.sum_square = np.loadtxt(model_path + '/zfilter_s')
+
+        print("Loaded OK ex. Zfilter N {}".format(running_state.rs.n))
+
     actor_optim = optim.Adam(actor.parameters(), lr=args.actor_lr)
     critic_optim = optim.Adam(critic.parameters(), lr=args.critic_lr,
                               weight_decay=args.l2_rate)
 
-    writer = SummaryWriter()
-    # running average of state
-    running_state = ZFilter((num_agent,num_inputs), clip=5)
-    states = running_state(env_info.vector_observations)
     scores = []
     score_avg = 0
 
@@ -152,9 +165,21 @@ if __name__ == "__main__":
             directory = 'save_model/'
             if not os.path.exists(directory):
                 os.makedirs(directory)
+            fname_n = 'save_model/' + str(score_avg) + 'zfilter_n'
+            f = open(fname_n, 'w')
+            f.write("{}".format(running_state.rs.n))
+            f.close()
+
+            fname_m = 'save_model/' + str(score_avg) + 'zfilter_m'
+            np.savetxt(fname_m, running_state.rs.mean)
+
+            fname_s = 'save_model/' + str(score_avg) + 'zfilter_s'
+            np.savetxt(fname_s, running_state.rs.sum_square)
+
             torch.save(actor.state_dict(), 'save_model/' + str(score_avg) +
                        'actor.pt')
             torch.save(critic.state_dict(), 'save_model/' + str(score_avg) +
                        'critic.pt')
+
 
     env.close()
