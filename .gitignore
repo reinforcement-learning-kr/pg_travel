@@ -4,4 +4,6 @@ runs/
 *.pt
 *.local
 ./unity_multiagent/unity-environment.log
-
+*zfilter_n
+*zfilter_m
+*zfilter_s
