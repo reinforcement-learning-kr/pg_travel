@@ -84,13 +84,7 @@ if __name__ == "__main__":
         actor.load_state_dict(torch.load(model_path + '/actor.pt'))
         critic.load_state_dict(torch.load(model_path + '/critic.pt'))
 
-        f = open(model_path + '/zfilter_n', 'r')
-        n_load = f.readline()
-        print(type(n_load))
-        print(int(float(n_load)))
-        running_state.rs.n = int(float(n_load))
-        f.close()
-
+        running_state.rs.n = int(np.loadtxt(model_path + '/zfilter_n'))
         running_state.rs.mean = np.loadtxt(model_path + '/zfilter_m')
         running_state.rs.sum_square = np.loadtxt(model_path + '/zfilter_s')
 
@@ -165,16 +159,11 @@ if __name__ == "__main__":
             directory = 'save_model/'
             if not os.path.exists(directory):
                 os.makedirs(directory)
-            fname_n = 'save_model/' + str(score_avg) + 'zfilter_n'
-            f = open(fname_n, 'w')
-            f.write("{}".format(running_state.rs.n))
-            f.close()
 
-            fname_m = 'save_model/' + str(score_avg) + 'zfilter_m'
-            np.savetxt(fname_m, running_state.rs.mean)
-
-            fname_s = 'save_model/' + str(score_avg) + 'zfilter_s'
-            np.savetxt(fname_s, running_state.rs.sum_square)
+            np.savetxt('save_model/' + str(score_avg) + 'zfilter_n',
+                np.array(running_state.rs.mean))
+            np.savetxt('save_model/' + str(score_avg) + 'zfilter_m', running_state.rs.mean)
+            np.savetxt('save_model/' + str(score_avg) + 'zfilter_s', running_state.rs.sum_square)
 
             torch.save(actor.state_dict(), 'save_model/' + str(score_avg) +
                        'actor.pt')
