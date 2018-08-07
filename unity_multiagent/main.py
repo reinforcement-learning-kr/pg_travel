@@ -46,7 +46,7 @@ if __name__ == "__main__":
     elif platform.system() == 'Windows':
         env_name = "./env/walker_windows/Unity Environment"
 
-    train_mode = args.train_mode
+    train_mode = args.train
     torch.manual_seed(500)
 
     if args.render:
