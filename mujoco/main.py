@@ -22,13 +22,13 @@ parser.add_argument('--render', default=False, action="store_true")
 args = parser.parse_args()
 
 if args.algorithm == "PG":
-    from mujoco.agent.vanila_pg import train_model
+    from agent.vanila_pg import train_model
 elif args.algorithm == "NPG":
-    from mujoco.agent.tnpg import train_model
+    from agent.tnpg import train_model
 elif args.algorithm == "TRPO":
-    from mujoco.agent.trpo_gae import train_model
+    from agent.trpo_gae import train_model
 elif args.algorithm == "PPO":
-    from mujoco.agent.ppo_gae import train_model
+    from agent.ppo_gae import train_model
 
 
 if __name__=="__main__":

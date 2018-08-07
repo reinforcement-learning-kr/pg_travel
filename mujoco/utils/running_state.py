@@ -26,9 +26,25 @@ class RunningStat(object):
     def n(self):
         return self._n
 
+    @n.setter
+    def n(self, n):
+        self._n = n
+
     @property
     def mean(self):
         return self._M
+
+    @mean.setter
+    def mean(self, M):
+        self._M = M
+
+    @property
+    def sum_square(self):
+        return self._S
+
+    @sum_square.setter
+    def sum_square(self, S):
+        self._S = S
 
     @property
     def var(self):
