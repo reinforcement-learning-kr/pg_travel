@@ -80,3 +80,7 @@ def kl_divergence(new_actor, old_actor, states):
     return kl.sum(1, keepdim=True)
 
 
+def save_checkpoint(state, filename='checkpoint.pth.tar'):
+    torch.save(state, filename)
+
+
