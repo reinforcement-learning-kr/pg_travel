@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import torch.optim as optim
 from model import Actor, Critic
-from utils.utils import to_tensor, get_action
+from utils.utils import to_tensor, get_action, save_checkpoint
 from collections import deque
 from utils.running_state import ZFilter
 from agent.ppo import process_memory, train_model
@@ -13,27 +13,27 @@ from unityagents import UnityEnvironment
 from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
-parser.add_argument('--render', default=True,
+parser.add_argument('--render', default=False, action='store_true',
                     help='if you dont want to render, set this to False')
-parser.add_argument('--train_mode', default=True,
+parser.add_argument('--train', default=False, action='store_true',
                     help='if you dont want to train, set this to False')
-parser.add_argument('--load_model', default=None)
-parser.add_argument('--gamma', default=0.995, help='discount factor')
-parser.add_argument('--lamda', default=0.95, help='GAE hyper-parameter')
-parser.add_argument('--hidden_size', default=512,
+parser.add_argument('--load_model', type=str, default=None)
+parser.add_argument('--gamma', type=float, default=0.995, help='discount factor')
+parser.add_argument('--lamda', type=float, default=0.95, help='GAE hyper-parameter')
+parser.add_argument('--hidden_size', type=int, default=512,
                     help='hidden unit size of actor and critic networks')
-parser.add_argument('--critic_lr', default=0.0003)
-parser.add_argument('--actor_lr', default=0.0003)
-parser.add_argument('--batch_size', default=2048)
-parser.add_argument('--max_iter', default=2000000,
+parser.add_argument('--critic_lr', type=float, default=0.0003)
+parser.add_argument('--actor_lr', type=float, default=0.0003)
+parser.add_argument('--batch_size', type=int, default=2048)
+parser.add_argument('--max_iter', type=int, default=2000000,
                     help='the number of max iteration')
-parser.add_argument('--time_horizon', default=1000,
+parser.add_argument('--time_horizon', type=int, default=1000,
                     help='the number of time horizon (step number) T ')
-parser.add_argument('--l2_rate', default=0.001,
+parser.add_argument('--l2_rate', type=float, default=0.001,
                     help='l2 regularizer coefficient')
-parser.add_argument('--clip_param', default=0.1,
+parser.add_argument('--clip_param', type=float, default=0.1,
                     help='hyper parameter for ppo policy loss and value loss')
-parser.add_argument('--activation', default='tanh',
+parser.add_argument('--activation', type=str, default='swish',
                     help='you can choose between tanh and swish')
 args = parser.parse_args()
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     elif platform.system() == 'Linux':
         env_name = "./env/walker_linux/walker.x86_64"
     elif platform.system() == 'Windows':
-        env_name = "./env/walker-curved-windows/Unity Environment"
+        env_name = "./env/walker_windows/Unity Environment"
 
     train_mode = args.train_mode
     torch.manual_seed(500)
@@ -67,6 +67,11 @@ if __name__ == "__main__":
     print('action size:', num_actions)
     print('agent count:', num_agent)
 
+    writer = SummaryWriter()
+    # running average of state
+    running_state = ZFilter((num_agent,num_inputs), clip=5)
+    states = running_state(env_info.vector_observations)
+
     actor = Actor(num_inputs, num_actions, args)
     critic = Critic(num_inputs, args)
 
@@ -75,18 +80,22 @@ if __name__ == "__main__":
         critic = critic.cuda()
 
     if args.load_model is not None:
-        model_path = args.load_model
-        actor.load_state_dict(torch.load(model_path + '/actor.pt'))
-        critic.load_state_dict(torch.load(model_path + '/critic.pt'))
+        saved_ckpt_path = os.path.join(os.getcwd(), 'save_model', str(args.load_model))
+        ckpt = torch.load(saved_ckpt_path)
+
+        actor.load_state_dict(ckpt['actor'])
+        critic.load_state_dict(ckpt['critic'])
+
+        running_state.rs.n = ckpt['z_filter_n']
+        running_state.rs.mean = ckpt['z_filter_m']
+        running_state.rs.sum_square = ckpt['z_filter_s']
+
+        print("Loaded OK ex. Zfilter N {}".format(running_state.rs.n))
 
     actor_optim = optim.Adam(actor.parameters(), lr=args.actor_lr)
     critic_optim = optim.Adam(critic.parameters(), lr=args.critic_lr,
                               weight_decay=args.l2_rate)
 
-    writer = SummaryWriter()
-    # running average of state
-    running_state = ZFilter((num_agent,num_inputs), clip=5)
-    states = running_state(env_info.vector_observations)
     scores = []
     score_avg = 0
 
@@ -149,12 +158,21 @@ if __name__ == "__main__":
 
         if iter % 100:
             score_avg = int(score_avg)
-            directory = 'save_model/'
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            torch.save(actor.state_dict(), 'save_model/' + str(score_avg) +
-                       'actor.pt')
-            torch.save(critic.state_dict(), 'save_model/' + str(score_avg) +
-                       'critic.pt')
+
+            model_path = os.path.join(os.getcwd(),'save_model')
+            if not os.path.isdir(model_path):
+                os.makedirs(model_path)
+
+            ckpt_path = os.path.join(model_path, 'ckpt_'+ str(score_avg)+'.pth.tar')
+
+            save_checkpoint({
+                'actor': actor.state_dict(),
+                'critic': critic.state_dict(),
+                'z_filter_n':running_state.rs.n,
+                'z_filter_m': running_state.rs.mean,
+                'z_filter_s': running_state.rs.sum_square,
+                'args': args,
+                'score': score_avg
+            }, filename=ckpt_path)
 
     env.close()
