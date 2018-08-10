@@ -1,0 +1,12 @@
+Fri Aug 10 09:42:52 2018
+ERROR: GLEW initalization error: Missing GL version
+
+Fri Aug 10 09:44:57 2018
+ERROR: GLEW initalization error: Missing GL version
+
+Fri Aug 10 09:49:18 2018
+ERROR: GLEW initalization error: Missing GL version
+
+Fri Aug 10 09:50:47 2018
+ERROR: GLEW initalization error: Missing GL version
+

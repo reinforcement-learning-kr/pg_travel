@@ -25,6 +25,8 @@ if args.algorithm == "PG":
     from agent.vanila_pg import train_model
 elif args.algorithm == "NPG":
     from agent.tnpg import train_model
+elif args.algorithm == "DDPG":
+    from agent.ddpg import train_model
 elif args.algorithm == "TRPO":
     from agent.trpo_gae import train_model
 elif args.algorithm == "PPO":
@@ -67,6 +69,14 @@ if __name__=="__main__":
     actor_optim = optim.Adam(actor.parameters(), lr=hp.actor_lr)
     critic_optim = optim.Adam(critic.parameters(), lr=hp.critic_lr,
                               weight_decay=hp.l2_rate)
+
+    # for ddpg
+    actor_target = Actor(num_inputs, num_actions)
+    critic_target = Critic(num_inputs)
+
+    actor_target.load_state_dict(actor.state_dict())
+    critic_target.load_state_dict(critic.state_dict())
+
 
     episodes = 0
     for iter in range(15000):
