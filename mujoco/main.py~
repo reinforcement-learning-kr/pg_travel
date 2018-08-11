@@ -85,14 +85,12 @@ if __name__=="__main__":
 
         actor_target.load_state_dict(actor.state_dict())
         critic_target.load_state_dict(critic.state_dict())
-    # [ddpg] keep memory 
-    if args.algorithm == "DDPG":
-        memory = deque(maxlen=hp.memory_size)
+
+
     episodes = 0
     for iter in range(15000):
         actor.eval(), critic.eval()
-        if not args.algorithm == "DDPG":
-            memory = deque()
+        memory = deque()
 
         steps = 0
         scores = []
@@ -102,32 +100,23 @@ if __name__=="__main__":
             state = running_state(state)
             score = 0
             for _ in range(10000):
-                #if episodes % 50 == 0:
-                env.render()
+                if episodes % 50 == 0:
+                    env.render()
 
                 steps += 1
                 mu, std, _ = actor(torch.Tensor(state).unsqueeze(0))
-                # [ddpg] deterministic action + noise to the action. 
-                if args.algorithm == "DDPG" :
-                    action = get_action(mu, 1e-8)[0]
+                action = get_action(mu, std)[0]
+                if args.algorithm == "DDPG":
                     action = action + ou.sample() * action_range
-                else:
-                    action = get_action(mu, std)[0]
                 next_state, reward, done, _ = env.step(action)
                 next_state = running_state(next_state)
-                
-                # [ddpg] train every step
-                if args.algorithm == "DDPG" and episodes > 64:
-                    actor.train(), critic.train()
-                    train_model(actor, critic, memory, actor_optim, critic_optim, 
-                                actor_target, critic_target);
 
                 if done:
                     mask = 0
                 else:
                     mask = 1
 
-                memory.append([state, action, reward, mask, next_state])
+                memory.append([state, action, reward, mask])
 
                 score += reward
                 state = next_state
@@ -137,10 +126,13 @@ if __name__=="__main__":
             scores.append(score)
         score_avg = np.mean(scores)
         print('{} episode score is {:.2f}'.format(episodes, score_avg))
-        if not args.algorithm == "DDPG":
-            actor.train(), critic.train()
+        actor.train(), critic.train()
+        if args.algorithm == "DDPG":
             train_model(actor, critic, memory, actor_optim, critic_optim, 
                         actor_target, critic_target);
+        else:
+            train_model(actor, critic, memory, actor_optim, critic_optim)
+
 
         if iter % 100:
             score_avg = int(score_avg)

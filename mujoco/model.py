@@ -20,7 +20,8 @@ class Actor(nn.Module):
         x = F.tanh(self.fc2(x))
         mu = self.fc3(x)
         logstd = torch.zeros_like(mu)
-        std = torch.exp(logstd)
+        std = torch.exp(logstd) 
+
         return mu, std, logstd
 
 
@@ -38,3 +39,31 @@ class Critic(nn.Module):
         x = F.tanh(self.fc2(x))
         v = self.fc3(x)
         return v
+
+class Critic_DDPG(nn.Module):
+    def __init__(self, num_inputs, num_outputs):
+        super(Critic_DDPG, self).__init__()
+        self.num_outputs = num_outputs
+
+        self.linear1 = nn.Linear(num_inputs, hp.hidden)
+        self.ln1 = nn.LayerNorm(hp.hidden)
+
+        self.linear2 = nn.Linear(hp.hidden+num_outputs, hp.hidden)
+        self.ln2 = nn.LayerNorm(hp.hidden)
+
+        self.V = nn.Linear(hp.hidden, 1)
+        self.V.weight.data.mul_(0.1)
+        self.V.bias.data.mul_(0.0)
+
+    def forward(self, inputs, actions):
+        x = inputs
+        x = self.linear1(x)
+        x = self.ln1(x)
+        x = F.relu(x)
+
+        x = torch.cat((x, actions), 1)
+        x = self.linear2(x)
+        x = self.ln2(x)
+        x = F.relu(x)
+        V = self.V(x)
+        return V
