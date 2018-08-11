@@ -35,6 +35,8 @@ parser.add_argument('--clip_param', type=float, default=0.1,
                     help='hyper parameter for ppo policy loss and value loss')
 parser.add_argument('--activation', type=str, default='swish',
                     help='you can choose between tanh and swish')
+parser.add_argument('--logdir', type=str, default='logs',
+                    help='tensorboardx logs directory')
 args = parser.parse_args()
 
 
@@ -66,8 +68,8 @@ if __name__ == "__main__":
     print('state size:', num_inputs)
     print('action size:', num_actions)
     print('agent count:', num_agent)
-
-    writer = SummaryWriter()
+    
+    writer = SummaryWriter(args.logdir)
     # running average of state
     running_state = ZFilter((num_agent,num_inputs), clip=5)
     states = running_state(env_info.vector_observations)
