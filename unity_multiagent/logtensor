@@ -1,0 +1,8 @@
+/usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: numpy.dtype size changed, may indicate binary incompatibility. Expected 96, got 88
+  return f(*args, **kwds)
+/usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: numpy.dtype size changed, may indicate binary incompatibility. Expected 96, got 88
+  return f(*args, **kwds)
+W0811 12:40:31.004005 Reloader tf_logging.py:120] Detected out of order event.step likely caused by a TensorFlow restart. Purging 14 expired tensor events from Tensorboard display between the previous step: 3 (timestamp: 1533977364.3219025) and current step: 0 (timestamp: 1533977439.610581).
+W0811 12:40:31.047989 Reloader tf_logging.py:120] Detected out of order event.step likely caused by a TensorFlow restart. Purging 122 expired tensor events from Tensorboard display between the previous step: 121 (timestamp: 1533979673.707503) and current step: 0 (timestamp: 1533990543.1433237).
+W0811 12:40:31.074196 Reloader tf_logging.py:120] Detected out of order event.step likely caused by a TensorFlow restart. Purging 30 expired tensor events from Tensorboard display between the previous step: 28 (timestamp: 1533991121.7204778) and current step: 0 (timestamp: 1533991169.2608652).
+TensorBoard 1.9.0 at http://fe1030407891:6010 (Press CTRL+C to quit)

@@ -1,0 +1,9 @@
+/usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: numpy.dtype size changed, may indicate binary incompatibility. Expected 96, got 88
+  return f(*args, **kwds)
+/usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: numpy.dtype size changed, may indicate binary incompatibility. Expected 96, got 88
+  return f(*args, **kwds)
+W0811 12:40:01.820811 Reloader tf_logging.py:120] Detected out of order event.step likely caused by a TensorFlow restart. Purging 14 expired tensor events from Tensorboard display between the previous step: 3 (timestamp: 1533977364.3219025) and current step: 0 (timestamp: 1533977439.610581).
+W0811 12:40:01.852507 Reloader tf_logging.py:120] Detected out of order event.step likely caused by a TensorFlow restart. Purging 122 expired tensor events from Tensorboard display between the previous step: 121 (timestamp: 1533979673.707503) and current step: 0 (timestamp: 1533990543.1433237).
+W0811 12:40:01.873313 Reloader tf_logging.py:120] Detected out of order event.step likely caused by a TensorFlow restart. Purging 30 expired tensor events from Tensorboard display between the previous step: 28 (timestamp: 1533991121.7204778) and current step: 0 (timestamp: 1533991169.2608652).
+E0811 12:40:01.953120 MainThread program.py:280] TensorBoard attempted to bind to port 6009, but it was already in use
+TensorBoard attempted to bind to port 6009, but it was already in use
