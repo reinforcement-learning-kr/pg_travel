@@ -102,8 +102,8 @@ if __name__=="__main__":
             state = running_state(state)
             score = 0
             for _ in range(10000):
-                #if episodes % 50 == 0:
-                env.render()
+                if args.render:
+                    env.render()
 
                 steps += 1
                 mu, std, _ = actor(torch.Tensor(state).unsqueeze(0))

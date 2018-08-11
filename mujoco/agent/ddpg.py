@@ -6,10 +6,7 @@ from hparams import HyperParams as hp
 import torch.nn.functional as F
 
 def train_model(actor, critic, memory, actor_optim, critic_optim, actor_target, critic_target):
-    batch_size = 64
-    print("Memory Len : ", len(memory))
-    # memory = np.array(memory)
-    memory = np.array(random.sample(memory, batch_size))
+    memory = np.array(random.sample(memory, hp.batch_size))
     states = np.vstack(memory[:, 0])
     actions = list(memory[:, 1])
     rewards = list(memory[:, 2])
