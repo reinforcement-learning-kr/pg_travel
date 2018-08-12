@@ -106,10 +106,10 @@ if __name__=="__main__":
                     env.render()
 
                 steps += 1
-                mu, std, _ = actor(torch.Tensor(state).unsqueeze(0))
+                mu, std, logstd = actor(torch.Tensor(state).unsqueeze(0))
                 # [ddpg] deterministic action + noise to the action. 
                 if args.algorithm == "DDPG" :
-                    action = get_action(mu, 1e-8)[0]
+                    action = get_action(mu, logstd)[0]
                     action = action + ou.sample() * action_range
                 else:
                     action = get_action(mu, std)[0]
