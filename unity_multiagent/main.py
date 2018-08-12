@@ -8,6 +8,7 @@ from model import Actor, Critic
 from utils.utils import to_tensor, get_action, save_checkpoint
 from collections import deque
 from utils.running_state import ZFilter
+from utils.memory import Memory
 from agent.ppo import process_memory, train_model
 from unityagents import UnityEnvironment
 from tensorboardX import SummaryWriter
@@ -35,7 +36,12 @@ parser.add_argument('--clip_param', type=float, default=0.1,
                     help='hyper parameter for ppo policy loss and value loss')
 parser.add_argument('--activation', type=str, default='swish',
                     help='you can choose between tanh and swish')
+parser.add_argument('--logdir', type=str, default='logs',
+                    help='tensorboardx logs directory')
 args = parser.parse_args()
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 if __name__ == "__main__":
@@ -66,14 +72,14 @@ if __name__ == "__main__":
     print('state size:', num_inputs)
     print('action size:', num_actions)
     print('agent count:', num_agent)
-
-    writer = SummaryWriter()
+    
+    writer = SummaryWriter(args.logdir)
     # running average of state
     running_state = ZFilter((num_agent,num_inputs), clip=5)
     states = running_state(env_info.vector_observations)
 
-    actor = Actor(num_inputs, num_actions, args)
-    critic = Critic(num_inputs, args)
+    actor = Actor(num_inputs, num_actions, args).to(device)
+    critic = Critic(num_inputs, args).to(device)
 
     if torch.cuda.is_available():
         actor = actor.cuda()
@@ -101,7 +107,7 @@ if __name__ == "__main__":
 
     for iter in range(args.max_iter):
         actor.eval(), critic.eval()
-        memory = [deque() for _ in range(num_agent)]
+        memory = [Memory() for _ in range(num_agent)]
 
         steps = 0
         score = 0
@@ -119,7 +125,7 @@ if __name__ == "__main__":
             masks = list(~(np.array(dones)))
 
             for i in range(num_agent):
-                memory[i].append([states[i], actions[i], rewards[i], masks[i]])
+                memory[i].push(states[i], actions[i], rewards[i], masks[i])
 
             score += rewards[0]
             states = next_states
@@ -139,15 +145,17 @@ if __name__ == "__main__":
         sts, ats, returns, advants, old_policy, old_value = [], [], [], [], [], []
 
         for i in range(num_agent):
-            st, at, rt, adv, old_p, old_v = process_memory(actor, critic, memory[i], args)
+            batch = memory[i].sample()
+            st, at, rt, adv, old_p, old_v = process_memory(actor, critic, batch, args)
             sts.append(st)
-            ats.extend(at)
+            ats.append(at)
             returns.append(rt)
             advants.append(adv)
             old_policy.append(old_p)
             old_value.append(old_v)
 
-        sts = np.array(sts).reshape(-1, num_inputs)
+        sts = torch.cat(sts)
+        ats = torch.cat(ats)
         returns = torch.cat(returns)
         advants = torch.cat(advants)
         old_policy = torch.cat(old_policy)
