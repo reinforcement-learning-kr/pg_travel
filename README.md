@@ -3,9 +3,14 @@
 
 ![image](https://github.com/reinforcement-learning-kr/pg_travel/blob/master/img/RL-Korea-FB.jpg)
 
-This repository contains PyTorch implementations of Vanilla Policy Gradient [[1](#1)], Truncated Natural Policy Gradient [[4](#4)], Trust Region Policy Optimization [[5](#5)], Proximal Policy Optimization [[7](#7)].
+This repository contains PyTorch (v0.4.0) implementations of Vanilla Policy Gradient [[1](#1)], Truncated Natural Policy Gradient [[4](#4)], Trust Region Policy Optimization [[5](#5)], Proximal Policy Optimization [[7](#7)].
 
-Solid reviews of the below papers related to PG (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
+We have implemented and trained various PG agents using the following benchmarks.
+Pretrained agents are also provided alongside!
+* mujoco-py: [https://github.com/openai/mujoco-py](https://github.com/openai/mujoco-py)
+* Unity ml-agent: [https://github.com/Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents)
+
+For reference, solid reviews of the below papers related to PG (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
 <a name="1"></a>
 * [1] R. Sutton, et al., "Policy Gradient Methods for Reinforcement Learning with Function Approximation", NIPS 2000.
 <a name="2"></a>
@@ -22,23 +27,39 @@ Solid reviews of the below papers related to PG (in Korean) are located in https
 * [7] J. Schulman, et al., "Proximal Policy Optimization Algorithms", arXiv, https://arxiv.org/pdf/1707.06347.pdf.
 
 
-# Environment
+## Mujoco-py
+### Installation
 
-We have trained PG agents using the following benchmarks
-* mujoco-py: [https://github.com/openai/mujoco-py](https://github.com/openai/mujoco-py)
-* Unity ml-agent walker: [https://github.com/Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents)
-
-Unity Envrionements are located in https://drive.google.com/drive/folders/1fpdyOC0cU3RXe9LZ90Ic2yH3686b8PP-
+* [Ubuntu](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Installation-MuJoCo-in-Linux)
 
 
-# Requirements
+
+## Unity ml-agents
+### Installation
+
+* [Ubuntu](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Manual-for-Linux-Users)
+* [Windows](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Manual-for-Windows-Users)
+
+### Environments
+
+[External links](https://drive.google.com/drive/folders/1fpdyOC0cU3RXe9LZ90Ic2yH3686b8PP-) for prebuilt Unity envrionements.
+* Contains Plane and Curved Walker Environments
+* ![plane](img/plane-unity-env.png)
+* ![curved](img/curved-unity-env.png)
+
+## Requirements
+
 * python == 3.6
 * pytorch == 0.4
 * mujoco-py
-* ml-agent
+* ml-agents
 
-# Train
-## 1. mujoco-py
+
+
+
+
+## Train
+### 1. mujoco-py
 * **algorithm**: PG, TNPG, TRPO, PPO
 * **env**: Ant-v2, HalfCheetah-v2, Hopper-v2, Humanoid-v2, HumanoidStandup-v2, InvertedPendulum-v2, Reacher-v2, Swimmer-v2, Walker2d-v2
 ~~~
