@@ -6,8 +6,7 @@
 This repository contains PyTorch implementations of Vanilla Policy Gradient [1](#1), Truncated Natural Policy Gradient [2](#2), Trust Region Policy Optimization [3](#3), Proximal Policy Optimization [4](#4).
 
 Solid reviews of the papers including the above (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
-<div id="1" />
-* [1] R. Sutton, et al., "Policy Gradient Methods for Reinforcement Learning with Function Approximation", NIPS 2000.
+* [1] R. Sutton, et al., "Policy Gradient Methods for Reinforcement Learning with Function Approximation", NIPS 2000. <a name="1"></a>
 <div id="2" />
 * [2] D. Silver, et al., "Deterministic Policy Gradient Algorithms", ICML 2014.
 <div id="3" />
