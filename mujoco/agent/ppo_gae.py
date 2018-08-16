@@ -51,6 +51,7 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
     returns, advants = get_gae(rewards, masks, values)
     mu, std, logstd = actor(torch.Tensor(states))
     old_policy = log_density(torch.Tensor(actions), mu, std, logstd)
+    old_values = critic(torch.Tensor(states))
 
     criterion = torch.nn.MSELoss()
     n = len(states)
@@ -68,16 +69,20 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
             returns_samples = returns.unsqueeze(1)[batch_index]
             advants_samples = advants.unsqueeze(1)[batch_index]
             actions_samples = torch.Tensor(actions)[batch_index]
+            oldvalue_samples = old_values[batch_index].detach()
 
             loss, ratio = surrogate_loss(actor, advants_samples, inputs,
                                          old_policy.detach(), actions_samples,
                                          batch_index)
 
             values = critic(inputs)
-            critic_loss = criterion(values, returns_samples)
-            critic_optim.zero_grad()
-            critic_loss.backward()
-            critic_optim.step()
+            clipped_values = oldvalue_samples + \
+                             torch.clamp(values - oldvalue_samples,
+                                         -hp.clip_param,
+                                         hp.clip_param)
+            critic_loss1 = criterion(clipped_values, returns_samples)
+            critic_loss2 = criterion(values, returns_samples)
+            critic_loss = torch.max(critic_loss1, critic_loss2).mean()
 
             clipped_ratio = torch.clamp(ratio,
                                         1.0 - hp.clip_param,
@@ -85,13 +90,12 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
             clipped_loss = clipped_ratio * advants_samples
             actor_loss = -torch.min(loss, clipped_loss).mean()
 
+            loss = actor_loss + 0.5 * critic_loss
+
+            critic_optim.zero_grad()
+            loss.backward(retain_graph=True)
+            critic_optim.step()
+
             actor_optim.zero_grad()
-            actor_loss.backward()
+            loss.backward()
             actor_optim.step()
-
-
-
-
-
-
-
