@@ -1,11 +1,11 @@
 
-# Policy Gradient Algorithms
+# Policy Gradient (PG) Algorithms
 
 ![image](https://github.com/reinforcement-learning-kr/pg_travel/blob/master/img/RL-Korea-FB.jpg)
 
-This repository contains PyTorch implementations of Vanilla Policy Gradient [1](#1), Truncated Natural Policy Gradient [4](#4), Trust Region Policy Optimization [5](#5), Proximal Policy Optimization [7](#7).
+This repository contains PyTorch implementations of Vanilla Policy Gradient [[1](#1)], Truncated Natural Policy Gradient [[4](#4)], Trust Region Policy Optimization [[5](#5)], Proximal Policy Optimization [[7](#7)].
 
-Solid reviews of the papers including the above (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
+Solid reviews of the below papers related to PG (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
 <a name="1"></a>
 * [1] R. Sutton, et al., "Policy Gradient Methods for Reinforcement Learning with Function Approximation", NIPS 2000.
 <a name="2"></a>
