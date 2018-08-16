@@ -3,22 +3,22 @@
 
 ![image](https://github.com/reinforcement-learning-kr/pg_travel/blob/master/img/RL-Korea-FB.jpg)
 
-This repository contains PyTorch implementations of Vanilla Policy Gradient [1](#1), Truncated Natural Policy Gradient [2](#2), Trust Region Policy Optimization [3](#3), Proximal Policy Optimization [4](#4).
+This repository contains PyTorch implementations of Vanilla Policy Gradient [1](#1), Truncated Natural Policy Gradient [4](#4), Trust Region Policy Optimization [5](#5), Proximal Policy Optimization [7](#7).
 
 Solid reviews of the papers including the above (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
 <a name="1"></a>
 * [1] R. Sutton, et al., "Policy Gradient Methods for Reinforcement Learning with Function Approximation", NIPS 2000.
 <a name="2"></a>
 * [2] D. Silver, et al., "Deterministic Policy Gradient Algorithms", ICML 2014.
-<div id="3" />
+<a name="3"></a>
 * [3] T. Lillicrap, et al., "Continuous Control with Deep Reinforcement Learning", ICLR 2016.
-<div id="4" />
+<a name="4"></a>
 * [4] S. Kakade, "A Natural Policy Gradient", NIPS 2002.
-<div id="5" />
+<a name="5"></a>
 * [5] J. Schulman, et al., "Trust Region Policy Optimization", ICML 2015.
-<div id="6" />
+<a name="6"></a>
 * [6] J. Schulman, et al., "High-Dimensional Continuous Control using Generalized Advantage Estimation", ICLR 2016.
-<div id="7" />
+<a name="7"></a>
 * [7] J. Schulman, et al., "Proximal Policy Optimization Algorithms", arXiv, https://arxiv.org/pdf/1707.06347.pdf.
 
 
