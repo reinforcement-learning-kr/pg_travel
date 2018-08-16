@@ -42,10 +42,18 @@ For reference, solid reviews of the below papers related to PG (in Korean) are l
 
 ### Environments
 
-[External links](https://drive.google.com/drive/folders/1fpdyOC0cU3RXe9LZ90Ic2yH3686b8PP-) for prebuilt Unity envrionements.
-* Contains Plane and Curved Walker Environments
-* ![plane](img/plane-unity-env.png)
-* ![curved](img/curved-unity-env.png)
+[Prebuilt Unity envrionements](https://drive.google.com/drive/folders/1fpdyOC0cU3RXe9LZ90Ic2yH3686b8PP-)
+* Contains Plane and Curved Walker Environments for Linux / Mac / Windows!
+    * Linux headless envs are also provided for [faster training](https://github.com/Unity-Technologies/ml-agents/blob/20569f942300dc9279587a17ea3d3a4981f4429b/docs/Learning-Environment-Executable.md) and/or [server-side training](https://github.com/Unity-Technologies/ml-agents/blob/d37bfb63f9eb7c1651ac07de13627efa6ddfbed6/docs/Training-on-Amazon-Web-Service.md#training-on-ec2-instance).
+    * Information
+    * ```
+
+    ```
+* Overview of Plane walker envs
+![plane](img/plane-unity-env.png)
+* Overview of Curved walker envs
+![curved](img/curved-unity-env.png)
+
 
 ## Requirements
 
