@@ -1,20 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a169e3c8-af3b-49b6-b4ea-8ee1b0406a5d" name="Default" comment="" />
+    <list default="true" id="a169e3c8-af3b-49b6-b4ea-8ee1b0406a5d" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/bc/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/bc/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/bc/trainer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/buffer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/ppo/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/ppo/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/ppo/trainer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/trainer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity/unitytrainers/trainer_controller.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/agent_action_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/agent_info_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/brain_parameters_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/brain_type_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/command_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/engine_configuration_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/environment_parameters_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/header_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/resolution_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/space_type_proto_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_input_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_message_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_output_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_rl_initialization_input_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_rl_initialization_output_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_rl_input_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_rl_output_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_to_external_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/communicator_objects/unity_to_external_pb2_grpc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unity-environment.log" beforeDir="false" afterPath="$PROJECT_DIR$/unity_multiagent/unity-environment.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/brain.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/communicator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/curriculum.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/environment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/exception.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/rpc_communicator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unity_multiagent/unityagents/socket_communicator.py" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="523595751">
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="2" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/unity/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="653">
-              <caret line="125" column="14" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="14" />
+            <state relative-caret-position="1983">
+              <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/unity_multiagent/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="111" column="12" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -23,27 +90,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/unity_multiagent/main.py">
+        <entry file="file://$PROJECT_DIR$/unity_multiagent/agent/ppo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="936">
-              <caret line="75" column="38" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="38" />
+            <state relative-caret-position="494">
+              <caret line="68" column="55" selection-start-line="68" selection-start-column="55" selection-end-line="68" selection-end-column="55" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/unity/unitytrainers/ppo/trainer.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/unity/agent/ppo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+            <state relative-caret-position="276">
+              <caret line="60" column="13" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="13" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -54,7 +116,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/unity/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="836">
+            <state relative-caret-position="874">
               <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -98,6 +160,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>logdir</find>
+      <find>epoch</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -154,12 +217,12 @@
             <path>
               <item name="pg_travel" type="b2602c69:ProjectViewProjectNode" />
               <item name="pg_travel" type="462c0819:PsiDirectoryNode" />
-              <item name="unity" type="462c0819:PsiDirectoryNode" />
+              <item name="unity_multiagent" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pg_travel" type="b2602c69:ProjectViewProjectNode" />
               <item name="pg_travel" type="462c0819:PsiDirectoryNode" />
-              <item name="unity" type="462c0819:PsiDirectoryNode" />
+              <item name="unity_multiagent" type="462c0819:PsiDirectoryNode" />
               <item name="agent" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -462,26 +525,6 @@
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py" />
     <entry file="file://$PROJECT_DIR$/unity/agent/all_scalars.json" />
     <entry file="file://$PROJECT_DIR$/unity/agent/test_tensorboardx.py" />
-    <entry file="file://$PROJECT_DIR$/unity/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unity/agent/ppo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
@@ -489,12 +532,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/unity/unitytrainers/ppo/trainer.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://D:/unityagents/communicator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unity/agent/ppo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="60" column="13" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unity/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/unity/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="125" column="14" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="14" />
+        <state relative-caret-position="1983">
+          <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unity_multiagent/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="111" column="12" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unity_multiagent/agent/ppo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="68" column="55" selection-start-line="68" selection-start-column="55" selection-end-line="68" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
