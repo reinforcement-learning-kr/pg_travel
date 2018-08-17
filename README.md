@@ -176,10 +176,11 @@ tensorboard --logdir runs
 ### 5. Trained Agent
 
 We have trained the agents with `PPO` using `plane` and `curved` envs.
+
 | Env | GIF |
 |:---:|:---:|
-| Plane | <img src="img/plane-595.png" alt="plane" width="200px"/> |
-| Curved | <img src="img/curved-736.png" alt="curved" width="200px"/> |
+| Plane | <img src="img/plane-595.gif" alt="plane" width="200px"/> |
+| Curved | <img src="img/curved-736.gif" alt="curved" width="200px"/> |
 
 ## Reference
 We referenced the codes from the below repositories.
