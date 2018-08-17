@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a169e3c8-af3b-49b6-b4ea-8ee1b0406a5d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/bc/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/bc/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/bc/trainer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/buffer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/ppo/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/ppo/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/ppo/trainer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/trainer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unitytrainers/trainer_controller.py" beforeDir="false" />
-    </list>
+    <list default="true" id="a169e3c8-af3b-49b6-b4ea-8ee1b0406a5d" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +25,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/unity_multiagent/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="903">
+            <state relative-caret-position="936">
               <caret line="75" column="38" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="38" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -107,6 +94,11 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>logdir</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
