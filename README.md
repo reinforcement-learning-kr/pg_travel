@@ -119,8 +119,7 @@ We have trained the agents with four different PG algortihms using `Hopper-v2` e
 
 We have modified `Walker` environment provided by [Unity ml-agents](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#walker).
 
-Overview
-|  | image |
+| Overview | image |
 |:---:|:---:|
 | Walker | <img src="img/walker.png" alt="walker" width="100px"/> |
 | Plane Env | <img src="img/plane-unity-env.png" alt="plane" width="200px"/> |
