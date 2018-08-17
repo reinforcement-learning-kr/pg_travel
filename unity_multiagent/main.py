@@ -44,7 +44,7 @@ if __name__ == "__main__":
     elif platform.system() == 'Linux':
         env_name = "./env/walker_linux/walker.x86_64"
     elif platform.system() == 'Windows':
-        env_name = "./env/walker_windows/Unity Environment"
+        env_name = "./env/plane-win/Unity Environment"
 
     train_mode = args.train
     torch.manual_seed(500)

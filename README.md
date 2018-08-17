@@ -3,17 +3,17 @@
 
 ![image](img/RL-Korea-FB.jpg)
 
-This repository contains PyTorch (v0.4.0) implementations of below policy gradient (PG) algorithms.
+This repository contains PyTorch (v0.4.0) implementations of typical policy gradient (PG) algorithms.
 * Vanilla Policy Gradient [[1](#1)]
 * Truncated Natural Policy Gradient [[4](#4)]
 * Trust Region Policy Optimization [[5](#5)]
 * Proximal Policy Optimization [[7](#7)].
 
-We have implemented and trained the agents with the above algorithms using the following benchmarks. Trained agents are also provided in our repo!
+We have implemented and trained the agents with the PG algorithms using the following benchmarks. Trained agents are also provided in our repo!
 * mujoco-py: [https://github.com/openai/mujoco-py](https://github.com/openai/mujoco-py)
 * Unity ml-agent: [https://github.com/Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents)
 
-For reference, solid reviews of the below papers related to PG (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/
+For reference, solid reviews of the below papers related to PG (in Korean) are located in https://reinforcement-learning-kr.github.io/2018/06/29/0_pg-travel-guide/. Enjoy!
 <a name="1"></a>
 * [1] R. Sutton, et al., "Policy Gradient Methods for Reinforcement Learning with Function Approximation", NIPS 2000.
 <a name="2"></a>
@@ -40,18 +40,19 @@ For reference, solid reviews of the below papers related to PG (in Korean) are l
 Navigate to `pg_travel/mujoco` folder
 
 #### Basic Usage
-~~~
-python main.py --algorithm PPO --env Hopper-v2
-~~~
+
 Train hopper agent with `PPO` using `Hopper-v2` without rendering.
-* **algorithm**: PG, TNPG, TRPO, **PPO**(default)
-* **env**: Ant-v2, HalfCheetah-v2, **Hopper-v2**(default), Humanoid-v2, HumanoidStandup-v2, InvertedPendulum-v2, Reacher-v2, Swimmer-v2, Walker2d-v2
+~~~
+python main.py
+~~~
+
 
 #### Load and render the pretrained model
 ~~~
-python main.py  --render --load_model ckpt_736.pth.tar
+python main.py --algorithm TRPO --env HalfCheetah-v2 --render --load_model ckpt_736.pth.tar
 ~~~
-
+* **algorithm**: PG, TNPG, TRPO, **PPO**(default)
+* **env**: Ant-v2, HalfCheetah-v2, **Hopper-v2**(default), Humanoid-v2, HumanoidStandup-v2, InvertedPendulum-v2, Reacher-v2, Swimmer-v2, Walker2d-v2
 * Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
 #### Modify the hyperparameters
@@ -62,26 +63,26 @@ Change the hyperparameters according to your preference.
 
 ### 3. Observe Training
 
-We have integrated [TensorboardX](https://github.com/lanpa/tensorboardX) to observe training.
-* Note that the results of training are saved in `runs` folder automatically.
+We have integrated [TensorboardX](https://github.com/lanpa/tensorboardX) to observe training progresses.
+* Note that the results of trainings are automatically saved in `runs` folder.
+* TensorboardX is the Tensorboard like visualization tool for Pytorch.
 
 Navigate to the `pg_travel/mujoco` folder
 ~~~
 tensorboard --logdir runs
 ~~~
 
-
 ### 4. Trained Agent
 
 We have trained the agents with four different PG algortihms using `Hopper-v2` env.
-* Vanilla PG
-![]()
-* TNPG
-![]()
-* TRPO
-![]()
-* PPO
-![]()
+
+| Algorithm | Score | GIF |
+|:---:|:---:|:---:|
+| Vanilla PG | ![vanilla_pg_score](img/vanilla_pg_score.png) |  |
+| NPG | ![npg](img/npg_score.png) |  |
+| TRPO | ![trpo](img/trpo_score.png) |  |
+| PPO | ![ppo](img/ppo_score.png) |  |
+
 
 ## Unity ml-agents
 ### 1. Installation
@@ -91,20 +92,19 @@ We have trained the agents with four different PG algortihms using `Hopper-v2` e
 
 ### 2. Environments
 
-Modification based on `Walker` env provided by [Unity ml-agents](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#walker).
+We have modified `Walker` environment provided by [Unity ml-agents](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#walker).
 
 Overview
-* Walker
-![]()
-* Overview of Plane walker envs
-![plane](img/plane-unity-env.png)
-* Overview of Curved walker envs
-![curved](img/curved-unity-env.png)
+|  | image |
+|:---:|:---:|
+| Walker | <img src="img/walker.png" alt="walker" width="100px"/> |
+| Plane Env | <img src="img/plane-unity-env.png" alt="plane" width="200px"/> |
+| Curved Env | <img src="img/curved-unity-env.png" alt="curved" width="400px"/> |
 
 Description
 * 215 continuous observation spaces
 * 39 continuous action spaces
-* 16 walker agents
+* 16 walker agents in both Plane and Curved envs
 * `Reward`
     * +0.03 times body velocity in the goal direction.
     * +0.01 times head y position.
@@ -116,9 +116,9 @@ Description
     * When the walker agent reaches the target
 
 [Prebuilt Unity envrionements](https://drive.google.com/drive/folders/1fpdyOC0cU3RXe9LZ90Ic2yH3686b8PP-)
-* Contains Plane and Curved Walker Environments for Linux / Mac / Windows!
+* Contains Plane and Curved walker environments for Linux / Mac / Windows!
 * Linux headless envs are also provided for [faster training](https://github.com/Unity-Technologies/ml-agents/blob/20569f942300dc9279587a17ea3d3a4981f4429b/docs/Learning-Environment-Executable.md) and [server-side training](https://github.com/Unity-Technologies/ml-agents/blob/d37bfb63f9eb7c1651ac07de13627efa6ddfbed6/docs/Training-on-Amazon-Web-Service.md#training-on-ec2-instance).
-
+* Download the corresponding environments, unzip, and put them in the `pg_travel/unity_multiagent/env`
 
 ### 3. Train
 
@@ -126,13 +126,12 @@ Navigate to the `pg_travel/unity_multiagent` folder
 * `pg_travel/unity` is provided to make it easier to follow the code. Only one agent is used for training even if the multiple agents are provided in the environment.
 
 #### Basic Usage
+
+Train walker agent with `PPO` using `Plane` environment without rendering.
 ~~~
-python main.py --algorithm PPO --env Hopper-v2
+python main.py --train
 ~~~
-Train hopper agent with `PPO` using `Hopper-v2` without rendering.
-* **algorithm**: PG, TNPG, TRPO, **PPO**(default)
-* **env**: Ant-v2, HalfCheetah-v2, **Hopper-v2**(default), Humanoid-v2, HumanoidStandup-v2, InvertedPendulum-v2, Reacher-v2, Swimmer-v2, Walker2d-v2
-See arguments in main.py. You can change hyper parameters for the ppo algorithm, network architecture, etc.
+* See arguments in main.py. You can change hyper parameters for the ppo algorithm, network architecture, etc.
 
 #### Load and render the pretrained model
 ~~~
@@ -141,31 +140,22 @@ python main.py  --render --load_model ckpt_736.pth.tar
 
 * Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
-#### Modify the hyperparameters
-
-Hyperparameters are listed in `hparams.py`.
-Change the hyperparameters according to your preference.
-
-
 ### 4. Observe Training
 
-We have integrated [TensorboardX](https://github.com/lanpa/tensorboardX) to observe training.
-* Note that the results of training are saved in `runs` folder automatically.
+We have integrated [TensorboardX](https://github.com/lanpa/tensorboardX) to observe training progresses.
 
 Navigate to the `pg_travel/unity_multiagent` folder
 ~~~
 tensorboard --logdir runs
 ~~~
 
-
 ### 5. Trained Agent
 
 We have trained the agents with `PPO` using `plane` and `curved` envs.
-* plane
-![]()
-
-* curved
-![]()
+| Env | GIF |
+|:---:|:---:|
+| Plane | <img src="img/plane-595.png" alt="plane" width="200px"/> |
+| Curved | <img src="img/curved-736.png" alt="curved" width="200px"/> |
 
 ## Reference
 We referenced the codes from the below repositories.
