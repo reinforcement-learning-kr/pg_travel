@@ -125,7 +125,7 @@ We have modified `Walker` environment provided by [Unity ml-agents](https://gith
 | Curved Env | <img src="img/curved-unity-env.png" alt="curved" width="400px"/> |
 
 Description
-* 215 continuous observation spaces
+* 212 continuous observation spaces
 * 39 continuous action spaces
 * 16 walker agents in both Plane and Curved envs
 * `Reward`
@@ -174,7 +174,7 @@ We have integrated [TensorboardX](https://github.com/lanpa/tensorboardX) to obse
 
 Navigate to the `pg_travel/unity_multiagent` folder
 ~~~
-tensorboard --logdir runs
+tensorboard --logdir logs
 ~~~
 
 ### 5. Trained Agent
