@@ -58,7 +58,7 @@ Table of Contents
 ## Mujoco-py
 ### 1. Installation
 
-* [Ubuntu](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Installation-MuJoCo-in-Linux)
+* [Ubuntu](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Installing-Mujoco-py-on-Linux)
 
 ### 2. Train
 
@@ -111,8 +111,8 @@ We have trained the agents with four different PG algortihms using `Hopper-v2` e
 ## Unity ml-agents
 ### 1. Installation
 
-* [Ubuntu](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Manual-for-Linux-Users)
-* [Windows](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Manual-for-Windows-Users)
+* [Ubuntu](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Installing-Unity-ml-agents-on-Linux)
+* [Windows](https://github.com/reinforcement-learning-kr/pg_travel/wiki/Installing-Unity-ml-agents-on-Windows)
 
 ### 2. Environments
 
