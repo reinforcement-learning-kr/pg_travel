@@ -1,5 +1,11 @@
 __pycache__/
+<<<<<<< HEAD
 runs/
+=======
+save_model/
+runs/
+logs/
+>>>>>>> 8c00a12ffaba43b0651b78ce2cd1c707523bbfa2
 *.pt
 *.local
 ./unity_multiagent/unity-environment.log
