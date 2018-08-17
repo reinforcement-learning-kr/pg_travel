@@ -38,6 +38,8 @@ parser.add_argument('--activation', type=str, default='swish',
                     help='you can choose between tanh and swish')
 parser.add_argument('--logdir', type=str, default='logs',
                     help='tensorboardx logs directory')
+parser.add_argument('--env', type=str, default='plane',
+                    help='environment, plane or curved')
 args = parser.parse_args()
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -46,11 +48,11 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 if __name__ == "__main__":
     if platform.system() == 'Darwin':
-        env_name = "./env/walker_mac_multi"
+        env_name = "./env/{}-mac".format(args.env)
     elif platform.system() == 'Linux':
-        env_name = "./env/walker_linux/walker.x86_64"
+        env_name = "./env/{}-linux/plane-walker".format(args.env)
     elif platform.system() == 'Windows':
-        env_name = "./env/walker_windows/Unity Environment"
+        env_name = "./env/{}-win/Unity Environment".format(args.env)
 
     train_mode = args.train
     torch.manual_seed(500)
