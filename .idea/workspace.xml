@@ -4,11 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/mujoco/main.py" line="28" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a169e3c8-af3b-49b6-b4ea-8ee1b0406a5d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/unity_multiagent/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unity_multiagent/unity-environment.log" beforeDir="false" afterPath="$PROJECT_DIR$/unity_multiagent/unity-environment.log" afterDir="false" />
-    </list>
+    <list default="true" id="a169e3c8-af3b-49b6-b4ea-8ee1b0406a5d" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +59,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/unity_multiagent/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
+            <state relative-caret-position="-1719">
               <caret line="46" column="32" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -548,7 +544,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/unity_multiagent/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
+        <state relative-caret-position="-1719">
           <caret line="46" column="32" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />

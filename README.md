@@ -70,7 +70,7 @@ Train hopper agent with `PPO` using `Hopper-v2` without rendering.
 ~~~
 python main.py
 ~~~
-
+* Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
 #### Load and render the pretrained model
 ~~~
@@ -78,7 +78,6 @@ python main.py --algorithm TRPO --env HalfCheetah-v2 --render --load_model ckpt_
 ~~~
 * **algorithm**: PG, TNPG, TRPO, **PPO**(default)
 * **env**: Ant-v2, HalfCheetah-v2, **Hopper-v2**(default), Humanoid-v2, HumanoidStandup-v2, InvertedPendulum-v2, Reacher-v2, Swimmer-v2, Walker2d-v2
-* Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
 #### Modify the hyperparameters
 
@@ -156,13 +155,18 @@ Train walker agent with `PPO` using `Plane` environment without rendering.
 python main.py --train
 ~~~
 * See arguments in main.py. You can change hyper parameters for the ppo algorithm, network architecture, etc.
+* Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
 #### Load and render the pretrained model
+If you just want to see how the trained agent walks
 ~~~
-python main.py  --render --load_model ckpt_736.pth.tar
+python main.py --render --load_model ckpt_736.pth.tar
 ~~~
 
-* Note that models are saved in `save_model` folder automatically for every 100th iteration.
+If you want to train from the saved point with rendering
+~~~
+python main.py --render --load_model ckpt_736.pth.tar --train
+~~~
 
 ### 4. Observe Training
 
