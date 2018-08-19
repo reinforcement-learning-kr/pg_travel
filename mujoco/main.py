@@ -9,7 +9,7 @@ from utils.utils import get_action, save_checkpoint
 from collections import deque
 from utils.running_state import ZFilter
 from hparams import HyperParams as hp
-
+from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--algorithm', type=str, default='PPO',
@@ -19,6 +19,8 @@ parser.add_argument('--env', type=str, default="Hopper-v2",
                     help='name of Mujoco environement')
 parser.add_argument('--load_model', type=str, default=None)
 parser.add_argument('--render', default=False, action="store_true")
+parser.add_argument('--logdir', type=str, default='logs',
+                    help='tensorboardx logs directory')
 args = parser.parse_args()
 
 if args.algorithm == "PG":
@@ -45,6 +47,8 @@ if __name__=="__main__":
 
     print('state size:', num_inputs)
     print('action size:', num_actions)
+
+    writer = SummaryWriter(args.logdir)
 
     actor = Actor(num_inputs, num_actions)
     critic = Critic(num_inputs)
@@ -105,6 +109,8 @@ if __name__=="__main__":
             scores.append(score)
         score_avg = np.mean(scores)
         print('{} episode score is {:.2f}'.format(episodes, score_avg))
+        writer.add_scalar('log/score', float(score_avg), iter)
+
         actor.train(), critic.train()
         train_model(actor, critic, memory, actor_optim, critic_optim)
 
