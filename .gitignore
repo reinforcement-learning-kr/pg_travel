@@ -1,7 +1,9 @@
 .idea/
+.ipynb_checkpoints/
 __pycache__/
 save_model/
 runs/
+logs/
 *.pt
 *.local
 unity-environment.log
