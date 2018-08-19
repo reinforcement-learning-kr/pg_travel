@@ -8,41 +8,50 @@ from model import Actor, Critic
 from utils.utils import *
 from collections import deque
 from utils.running_state import ZFilter
-from agent.ppo import train_model
+from utils.memory import Memory
+from agent.ppo import process_memory, train_model
 from unityagents import UnityEnvironment
 from tensorboardX import SummaryWriter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
-parser.add_argument('--render', default=True,
+parser.add_argument('--render', default=False, action='store_true',
                     help='if you dont want to render, set this to False')
-parser.add_argument('--train_mode', default=True,
+parser.add_argument('--train', default=False, action='store_true',
                     help='if you dont want to train, set this to False')
-parser.add_argument('--load_model', default=None)
-parser.add_argument('--gamma', default=0.995, help='discount factor')
-parser.add_argument('--lamda', default=0.95, help='GAE hyper-parameter')
-parser.add_argument('--hidden_size', default=512,
+parser.add_argument('--load_model', type=str, default=None)
+parser.add_argument('--gamma', type=float, default=0.995, help='discount factor')
+parser.add_argument('--lamda', type=float, default=0.95, help='GAE hyper-parameter')
+parser.add_argument('--hidden_size', type=int, default=512,
                     help='hidden unit size of actor and critic networks')
-parser.add_argument('--critic_lr', default=0.0001)
-parser.add_argument('--actor_lr', default=0.0001)
-parser.add_argument('--batch_size', default=1024)
-parser.add_argument('--time_horizon', default=1000,
+parser.add_argument('--critic_lr', type=float, default=0.0003)
+parser.add_argument('--actor_lr', type=float, default=0.0003)
+parser.add_argument('--batch_size', type=int, default=2048)
+parser.add_argument('--max_iter', type=int, default=2000000,
+                    help='the number of max iteration')
+parser.add_argument('--time_horizon', type=int, default=1000,
                     help='the number of time horizon (step number) T ')
-parser.add_argument('--l2_rate', default=0.001,
+parser.add_argument('--l2_rate', type=float, default=0.001,
                     help='l2 regularizer coefficient')
-parser.add_argument('--clip_param', default=0.1,
+parser.add_argument('--clip_param', type=float, default=0.1,
                     help='hyper parameter for ppo policy loss and value loss')
-parser.add_argument('--activation', default='tanh',
+parser.add_argument('--activation', type=str, default='swish',
                     help='you can choose between tanh and swish')
+parser.add_argument('--logdir', type=str, default='logs',
+                    help='tensorboardx logs directory')
+parser.add_argument('--env', type=str, default='plane',
+                    help='environment, plane or curved')
 args = parser.parse_args()
 
 
 if __name__ == "__main__":
     if platform.system() == 'Darwin':
-        env_name = "./env/walker_mac"
+        env_name = "./env/{}-mac".format(args.env)
     elif platform.system() == 'Linux':
-        env_name = "./env/walker_linux/walker.x86_64"
+        env_name = "./env/{}-linux/plane-walker".format(args.env)
+    elif platform.system() == 'Windows':
+        env_name = "./env/{}-win/Unity Environment".format(args.env)
 
-    train_mode = args.train_mode
+    train_mode = args.train
     torch.manual_seed(500)
 
     if args.render:
