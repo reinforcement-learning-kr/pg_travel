@@ -1,10 +1,9 @@
 import numpy as np
-from utils.utils import *
+import torch
+from utils.utils import to_tensor, to_tensor_long, get_action, log_density
 
 
 def get_gae(rewards, masks, values, args):
-    rewards = to_tensor(rewards)
-    masks = to_tensor(masks)
     returns = torch.zeros_like(rewards)
     advants = torch.zeros_like(rewards)
 
@@ -15,7 +14,7 @@ def get_gae(rewards, masks, values, args):
     for t in reversed(range(0, len(rewards))):
         running_returns = rewards[t] + args.gamma * running_returns * masks[t]
         running_tderror = rewards[t] + args.gamma * previous_value * masks[t] - \
-                    values.data[t]
+                          values.data[t]
         running_advants = running_tderror + args.gamma * args.lamda * \
                           running_advants * masks[t]
 
@@ -37,37 +36,42 @@ def surrogate_loss(actor, advants, states, old_policy, actions, index):
     return surrogate, ratio
 
 
-def train_model(actor, critic, memory, actor_optim, critic_optim, args):
-    memory = np.array(memory)
-    states = np.vstack(memory[:, 0])
-    actions = list(memory[:, 1])
-    rewards = list(memory[:, 2])
-    masks = list(memory[:, 3])
-    values = critic(to_tensor(states))
+def process_memory(actor, critic, batch, args):
+    states = to_tensor(batch.state)
+    actions = to_tensor(batch.action)
+    rewards = to_tensor(batch.reward)
+    masks = to_tensor(batch.mask)
+    values = critic(states)
 
     # ----------------------------
     # step 1: get returns and GAEs and log probability of old policy
     returns, advants = get_gae(rewards, masks, values, args)
-    mu, std, logstd = actor(to_tensor(states))
-    old_policy = log_density(to_tensor(actions), mu, std, logstd)
-    old_values = critic(to_tensor(states))
+    mu, std, logstd = actor(states)
+    old_policy = log_density(actions, mu, std, logstd)
+    old_values = values.clone()
 
+    return states, actions, returns, advants, old_policy, old_values
+
+
+def train_model(actor, critic, actor_optim, critic_optim, states, actions,
+                returns, advants, old_policy, old_values, args):
     criterion = torch.nn.MSELoss()
     n = len(states)
     arr = np.arange(n)
 
     # ----------------------------
     # step 2: get value loss and actor loss and update actor & critic
-    for epoch in range(10):
+    for epoch in range(3):
+        print('epoch is ' + str(epoch))
         np.random.shuffle(arr)
 
         for i in range(n // args.batch_size):
             batch_index = arr[args.batch_size * i: args.batch_size * (i + 1)]
             batch_index = to_tensor_long(batch_index)
-            inputs = to_tensor(states)[batch_index]
+            inputs = states[batch_index]
             returns_samples = returns.unsqueeze(1)[batch_index]
             advants_samples = advants.unsqueeze(1)[batch_index]
-            actions_samples = to_tensor(actions)[batch_index]
+            actions_samples = actions[batch_index]
             oldvalue_samples = old_values[batch_index].detach()
 
             loss, ratio = surrogate_loss(actor, advants_samples, inputs,

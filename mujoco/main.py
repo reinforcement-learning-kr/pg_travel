@@ -85,7 +85,7 @@ if __name__=="__main__":
             state = running_state(state)
             score = 0
             for _ in range(10000):
-                if episodes % 50 == 0:
+                if args.render:
                     env.render()
 
                 steps += 1

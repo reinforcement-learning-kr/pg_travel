@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import torch.optim as optim
 from model import Actor, Critic
-from utils.utils import *
+from utils.utils import to_tensor, get_action, save_checkpoint
 from collections import deque
 from utils.running_state import ZFilter
 from utils.memory import Memory
@@ -42,6 +42,9 @@ parser.add_argument('--env', type=str, default='plane',
                     help='environment, plane or curved')
 args = parser.parse_args()
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
 if __name__ == "__main__":
     if platform.system() == 'Darwin':
@@ -62,88 +65,125 @@ if __name__ == "__main__":
     # setting for unity ml-agent
     default_brain = env.brain_names[0]
     brain = env.brains[default_brain]
+    env_info = env.reset(train_mode=train_mode)[default_brain]
 
     num_inputs = brain.vector_observation_space_size
     num_actions = brain.vector_action_space_size
+    num_agent = env._n_agents[default_brain]
 
     print('state size:', num_inputs)
     print('action size:', num_actions)
+    print('agent count:', num_agent)
+    
+    writer = SummaryWriter(args.logdir)
+    # running average of state
+    running_state = ZFilter((num_agent,num_inputs), clip=5)
 
-    actor = Actor(num_inputs, num_actions, args)
-    critic = Critic(num_inputs, args)
+    actor = Actor(num_inputs, num_actions, args).to(device)
+    critic = Critic(num_inputs, args).to(device)
 
     if torch.cuda.is_available():
         actor = actor.cuda()
         critic = critic.cuda()
 
     if args.load_model is not None:
-        model_path = args.load_model
-        actor = actor.load_state_dict(model_path + 'actor.pt')
-        critic = critic.load_state_dict(model_path + 'critic.pt')
+        saved_ckpt_path = os.path.join(os.getcwd(), 'save_model', str(args.load_model))
+        ckpt = torch.load(saved_ckpt_path)
+
+        actor.load_state_dict(ckpt['actor'])
+        critic.load_state_dict(ckpt['critic'])
+
+        running_state.rs.n = ckpt['z_filter_n']
+        running_state.rs.mean = ckpt['z_filter_m']
+        running_state.rs.sum_square = ckpt['z_filter_s']
+
+        print("Loaded OK ex. Zfilter N {}".format(running_state.rs.n))
+
+    states = running_state(env_info.vector_observations)
 
     actor_optim = optim.Adam(actor.parameters(), lr=args.actor_lr)
     critic_optim = optim.Adam(critic.parameters(), lr=args.critic_lr,
                               weight_decay=args.l2_rate)
 
-    writer = SummaryWriter()
-    # running average of state
-    running_state = ZFilter((num_inputs,), clip=5)
-    episodes = 0
-    for iter in range(10000):
+    scores = []
+    score_avg = 0
+
+    for iter in range(args.max_iter):
         actor.eval(), critic.eval()
-        memory = deque()
+        memory = [Memory() for _ in range(num_agent)]
 
         steps = 0
-        scores = []
+        score = 0
+
         while steps < args.time_horizon:
-            episodes += 1
-            env_info = env.reset(train_mode=train_mode)[default_brain]
-            state = env_info.vector_observations[0]
-            state = running_state(state)
-            score = 0
+            steps += 1
 
-            for _ in range(10000):
-                steps += 1
-                state_tensor = to_tensor(state)
-                mu, std, _ = actor(state_tensor.unsqueeze(0))
-                action = get_action(mu, std)[0]
-                actions = np.zeros([len(env_info.agents), num_actions])
-                actions[0] = action
+            mu, std, _ = actor(to_tensor(states))
+            actions = get_action(mu, std)
+            env_info = env.step(actions)[default_brain]
 
-                env_info = env.step(actions)[default_brain]
-                next_state = env_info.vector_observations[0]
-                reward = env_info.rewards[0]
-                done = env_info.local_done[0]
+            next_states = running_state(env_info.vector_observations)
+            rewards = env_info.rewards
+            dones = env_info.local_done
+            masks = list(~(np.array(dones)))
 
-                next_state = running_state(next_state)
+            for i in range(num_agent):
+                memory[i].push(states[i], actions[i], rewards[i], masks[i])
 
-                if done:
-                    mask = 0
-                else:
-                    mask = 1
+            score += rewards[0]
+            states = next_states
 
-                memory.append([state, action, reward, mask])
+            if dones[0]:
+                scores.append(score)
+                score = 0
+                episodes = len(scores)
+                if len(scores) % 10 == 0:
+                    score_avg = np.mean(scores[-min(10, episodes):])
+                    print('{}th episode : last 10 episode mean score of 1st agent is {:.2f}'.format(
+                        episodes, score_avg))
 
-                score += reward
-                state = next_state
-
-                if done:
-                    break
-
-            scores.append(score)
-        score_avg = np.mean(scores)
         writer.add_scalar('log/score', float(score_avg), iter)
-        print('{} episode score is {:.2f}'.format(episodes, score_avg))
         actor.train(), critic.train()
-        train_model(actor, critic, memory, actor_optim, critic_optim, args)
+
+        sts, ats, returns, advants, old_policy, old_value = [], [], [], [], [], []
+
+        for i in range(num_agent):
+            batch = memory[i].sample()
+            st, at, rt, adv, old_p, old_v = process_memory(actor, critic, batch, args)
+            sts.append(st)
+            ats.append(at)
+            returns.append(rt)
+            advants.append(adv)
+            old_policy.append(old_p)
+            old_value.append(old_v)
+
+        sts = torch.cat(sts)
+        ats = torch.cat(ats)
+        returns = torch.cat(returns)
+        advants = torch.cat(advants)
+        old_policy = torch.cat(old_policy)
+        old_value = torch.cat(old_value)
+
+        train_model(actor, critic, actor_optim, critic_optim, sts, ats, returns, advants,
+                    old_policy, old_value, args)
+
         if iter % 100:
             score_avg = int(score_avg)
-            directory = 'save_model/'
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            torch.save(actor.state_dict(), 'save_model/' + str(score_avg) +
-                       'actor.pt')
-            torch.save(critic.state_dict(), 'save_model/' + str(score_avg) +
-                       'critic.pt')
+
+            model_path = os.path.join(os.getcwd(),'save_model')
+            if not os.path.isdir(model_path):
+                os.makedirs(model_path)
+
+            ckpt_path = os.path.join(model_path, 'ckpt_'+ str(score_avg)+'.pth.tar')
+
+            save_checkpoint({
+                'actor': actor.state_dict(),
+                'critic': critic.state_dict(),
+                'z_filter_n':running_state.rs.n,
+                'z_filter_m': running_state.rs.mean,
+                'z_filter_s': running_state.rs.sum_square,
+                'args': args,
+                'score': score_avg
+            }, filename=ckpt_path)
 
     env.close()
