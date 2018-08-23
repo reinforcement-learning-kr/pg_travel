@@ -219,3 +219,4 @@ We have trained the agents with `PPO` using `plane` and `curved` envs.
 We referenced the codes from below repositories.
 * [OpenAI Baseline](https://github.com/openai/baselines/tree/master/baselines/trpo_mpi)
 * [Pytorch implemetation of TRPO](https://github.com/ikostrikov/pytorch-trpo)
+* [RLCode Actor-Critic](https://github.com/rlcode/reinforcement-learning-kr/tree/master/2-cartpole/2-actor-critic)
