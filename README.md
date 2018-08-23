@@ -92,8 +92,9 @@ python main.py --load_model ckpt_736.pth.tar
 
 #### Test the pretrained model
 
+Play `5` episodes with the saved model `ckpt_738.pth.tar`
 ~~~
-python test_algo.py --load_model ckpt_736.pth.tar
+python test_algo.py --load_model ckpt_736.pth.tar --iter 5
 ~~~
 * Note that `ckpt_736.pth.tar` file should be in the `pg_travel/mujoco/save_model` folder.
 * Pass the arguments `env` if not `Hopper-v2`.
@@ -122,11 +123,10 @@ We have trained the agents with four different PG algortihms using `Hopper-v2` e
 
 | Algorithm | Score | GIF |
 |:---:|:---:|:---:|
-| Vanilla PG | ![vanilla_pg_score](img/vanilla_pg_score.png) |  |
-| NPG | ![npg](img/npg_score.png) |  |
-| TRPO | ![trpo](img/trpo_score.png) |  |
-| PPO | ![ppo](img/ppo_score.png) |  |
-
+| Vanilla PG | <img src="img/vanilla_pg_score.png" height="180px" width="250px"/> | <img src="img/vanilla_pg.gif" height="180px" width="250px"/> |
+| NPG | <img src="img/npg_score.png" height="180px" width="250px"/> | <img src="img/npg.gif" height="180px" width="250px"/> |
+| TRPO | ![trpo](img/trpo_score.png) | <img src="img/trpo.gif" height="180px" width="250px"/> |
+| PPO | ![ppo](img/ppo_score.png) | <img src="img/ppo.gif" height="180px" width="250px"/> |
 
 ## Unity ml-agents
 ### 1. Installation
