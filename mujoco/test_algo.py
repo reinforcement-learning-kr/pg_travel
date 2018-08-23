@@ -8,6 +8,8 @@ from utils.utils import get_action
 from utils.running_state import ZFilter
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--env', type=str, default="Hopper-v2",
+                    help='name of Mujoco environement')
 parser.add_argument("--load_model", type=str, default='ppo_max.tar',
                      help="if you test pretrained file, write filename in save_model folder")
 
@@ -16,7 +18,7 @@ args = parser.parse_args()
    
 
 if __name__ == "__main__":
-    env = gym.make("Hopper-v2")
+    env = gym.make(args.env)
     env.seed(500)
     torch.manual_seed(500)
 

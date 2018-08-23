@@ -38,7 +38,8 @@ Table of Contents
 		* [1. Installation](#1-installation)
 		* [2. Train](#2-train)
 			* [Basic Usage](#basic-usage)
-			* [Load and render the pretrained model](#load-and-render-the-pretrained-model)
+			* [Continue training from the saved checkpoint](#continue-training-from-the-saved-checkpoint)
+			* [Test the pretrained model](#test-the-pretrained-model)
 			* [Modify the hyperparameters](#modify-the-hyperparameters)
 		* [3. Tensorboard](#3-tensorboard)
 		* [4. Trained Agent](#4-trained-agent)
@@ -47,7 +48,9 @@ Table of Contents
 		* [2. Environments](#2-environments)
 		* [3. Train](#3-train)
 			* [Basic Usage](#basic-usage-1)
-			* [Load and render the pretrained model](#load-and-render-the-pretrained-model-1)
+			* [Continue training from the saved checkpoint](#continue-training-from-the-saved-checkpoint-1)
+			* [Test the pretrained model](#test-the-pretrained-model-1)
+			* [Modify the hyperparameters](#modify-the-hyperparameters-1)
 		* [4. Tensorboard](#4-tensorboard)
 		* [5. Trained Agent](#5-trained-agent)
 	* [Reference](#reference)
@@ -66,19 +69,34 @@ Navigate to `pg_travel/mujoco` folder
 
 #### Basic Usage
 
-Train hopper agent with `PPO` using `Hopper-v2` without rendering.
+Train the agent with `PPO` using `Hopper-v2` without rendering.
 ~~~
 python main.py
 ~~~
 * Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
-#### Load and render the pretrained model
+Train the agent with `TRPO` using `HalfCheetah` with rendering
 ~~~
-python main.py --algorithm TRPO --env HalfCheetah-v2 --render --load_model ckpt_736.pth.tar
+python main.py --algorithm TRPO --env HalfCheetah-v2 --render
 ~~~
 * **algorithm**: PG, TNPG, TRPO, **PPO**(default)
 * **env**: Ant-v2, HalfCheetah-v2, **Hopper-v2**(default), Humanoid-v2, HumanoidStandup-v2, InvertedPendulum-v2, Reacher-v2, Swimmer-v2, Walker2d-v2
+
+#### Continue training from the saved checkpoint
+
+~~~
+python main.py --load_model ckpt_736.pth.tar
+~~~
 * Note that `ckpt_736.pth.tar` file should be in the `pg_travel/mujoco/save_model` folder.
+* Pass the arguments `algorithm` and/or `env` if not `PPO` and/or `Hopper-v2`.
+
+#### Test the pretrained model
+
+~~~
+python test_algo.py --load_model ckpt_736.pth.tar
+~~~
+* Note that `ckpt_736.pth.tar` file should be in the `pg_travel/mujoco/save_model` folder.
+* Pass the arguments `env` if not `Hopper-v2`.
 
 #### Modify the hyperparameters
 
@@ -160,18 +178,24 @@ python main.py --train
 * Note that models are saved in `save_model` folder automatically for every 100th iteration.
 
 
-#### Load and render the pretrained model
-If you just want to see how the trained agent walks
+#### Continue training from the saved checkpoint
+
+~~~
+python main.py --load_model ckpt_736.pth.tar --train
+~~~
+* Note that `ckpt_736.pth.tar` file should be in the `pg_travel/unity/save_model` folder.
+
+#### Test the pretrained model
+
 ~~~
 python main.py --render --load_model ckpt_736.pth.tar
 ~~~
+* Note that `ckpt_736.pth.tar` file should be in the `pg_travel/unity/save_model` folder.
 
-If you want to train from the saved point with rendering
-~~~
-python main.py --render --load_model ckpt_736.pth.tar --train
-~~~
+#### Modify the hyperparameters
 
-* Note that `ckpt_736.pth.tar` file should be in the `pg_travel/mujoco/save_model` folder.
+See `main.py` for default hyperparameter settings.
+Pass the hyperparameter arguments according to your preference.
 
 ### 4. Tensorboard
 
