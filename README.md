@@ -123,8 +123,8 @@ We have trained the agents with four different PG algortihms using `Hopper-v2` e
 
 | Algorithm | Score | GIF |
 |:---:|:---:|:---:|
-| Vanilla PG | <img src="img/vanilla_pg_score.png" height="180px" width="250px"/> | <img src="img/vanilla_pg.gif" height="180px" width="250px"/> |
-| NPG | <img src="img/npg_score.png" height="180px" width="250px"/> | <img src="img/npg.gif" height="180px" width="250px"/> |
+| Vanilla PG | ![trpo](img/vanilla_pg_score.png) | <img src="img/vanilla_pg.gif" height="180px" width="250px"/> |
+| NPG | ![trpo](img/npg_score.png) | <img src="img/npg.gif" height="180px" width="250px"/> |
 | TRPO | ![trpo](img/trpo_score.png) | <img src="img/trpo.gif" height="180px" width="250px"/> |
 | PPO | ![ppo](img/ppo_score.png) | <img src="img/ppo.gif" height="180px" width="250px"/> |
 
