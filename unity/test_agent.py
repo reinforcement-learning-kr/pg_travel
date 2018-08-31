@@ -1,4 +1,5 @@
 import os
+import platform
 import torch
 import argparse
 import numpy as np
@@ -8,33 +9,26 @@ from utils.utils import get_action
 from utils.running_state import ZFilter
 
 parser = argparse.ArgumentParser(description='Setting for unity walker agent')
-parser.add_argument('--render', default=False, action='store_true',
-                    help='if you dont want to render, set this to False')
-parser.add_argument('--train', default=False, action='store_true',
-                    help='if you dont want to train, set this to False')
 parser.add_argument('--load_model', type=str, default=None)
-parser.add_argument('--gamma', type=float, default=0.995, help='discount factor')
-parser.add_argument('--lamda', type=float, default=0.95, help='GAE hyper-parameter')
+parser.add_argument('--env', type=str, default='plane',
+                    help='environment, plane or curved')
 parser.add_argument('--hidden_size', type=int, default=512,
                     help='hidden unit size of actor and critic networks')
-parser.add_argument('--critic_lr', type=float, default=0.0003)
-parser.add_argument('--actor_lr', type=float, default=0.0003)
-parser.add_argument('--batch_size', type=int, default=2048)
 parser.add_argument('--max_iter', type=int, default=2000000,
                     help='the number of max iteration')
-parser.add_argument('--time_horizon', type=int, default=1000,
-                    help='the number of time horizon (step number) T ')
-parser.add_argument('--l2_rate', type=float, default=0.001,
-                    help='l2 regularizer coefficient')
-parser.add_argument('--clip_param', type=float, default=0.1,
-                    help='hyper parameter for ppo policy loss and value loss')
 parser.add_argument('--activation', type=str, default='swish',
                     help='you can choose between tanh and swish')
 args = parser.parse_args()
 
 
 if __name__=="__main__":
-    env_name = "./env/walker_mac_multi"
+    if platform.system() == 'Darwin':
+        env_name = "./env/{}-mac".format(args.env)
+    elif platform.system() == 'Linux':
+        env_name = "./env/{}-linux/plane-walker".format(args.env)
+    elif platform.system() == 'Windows':
+        env_name = "./env/{}-win/Unity Environment".format(args.env)
+
     train_mode = False
     torch.manual_seed(500)
 
@@ -70,8 +64,7 @@ if __name__=="__main__":
     score_avg = 0
     score = 0
 
-    for iter in range(1000000000):
-
+    for iter in range(args.max_iter):
         actor.eval(), critic.eval()
 
         mu, std, _ = actor(torch.Tensor(states))
@@ -81,7 +74,6 @@ if __name__=="__main__":
         next_states = running_state(env_info.vector_observations)
         rewards = env_info.rewards
         dones = env_info.local_done
-        masks = list(~(np.array(dones)))
 
         score += rewards[0]
         states = next_states
