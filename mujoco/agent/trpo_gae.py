@@ -121,7 +121,6 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
     loss_grad = torch.autograd.grad(loss, actor.parameters())
     loss_grad = flat_grad(loss_grad)
     step_dir = conjugate_gradient(actor, states, loss_grad.data, nsteps=10)
-    loss = loss.data.numpy()
 
     # ----------------------------
     # step 4: get step direction and step size and full step
@@ -136,7 +135,6 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
     old_actor = Actor(actor.num_inputs, actor.num_outputs)
     update_model(old_actor, params)
     expected_improve = (loss_grad * full_step).sum(0, keepdim=True)
-    expected_improve = expected_improve.data.numpy()
 
     flag = False
     fraction = 1.0
@@ -145,7 +143,6 @@ def train_model(actor, critic, memory, actor_optim, critic_optim):
         update_model(actor, new_params)
         new_loss = surrogate_loss(actor, advants, states, old_policy.detach(),
                                   actions)
-        new_loss = new_loss.data.numpy()
         loss_improve = new_loss - loss
         expected_improve *= fraction
         kl = kl_divergence(new_actor=actor, old_actor=old_actor, states=states)
